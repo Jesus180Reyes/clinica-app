@@ -1,3 +1,3 @@
 export const PacienteLoginPage = () => {
-  return <div></div>;
+  return <div className='text-red-400 font-poppins font-bold'>Login de pacientes</div>;
 };
