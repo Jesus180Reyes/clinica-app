@@ -1,9 +1,9 @@
-import Swal, { SweetAlertPosition, SweetAlertResult } from "sweetalert2";
-type Statusicon = "success" | "error" | "warning" | "info" | "question";
+import Swal, { SweetAlertPosition, SweetAlertResult } from 'sweetalert2';
+type Statusicon = 'success' | 'error' | 'warning' | 'info' | 'question';
 export class CustomModals {
   static showModal(
     title: string,
-    position: SweetAlertPosition = "center",
+    position: SweetAlertPosition = 'center',
   ): Promise<SweetAlertResult> {
     return Swal.fire({ title: title, position: position });
   }
@@ -12,7 +12,7 @@ export class CustomModals {
     title: string,
     icon: Statusicon,
     text?: string,
-    position: SweetAlertPosition = "center",
+    position: SweetAlertPosition = 'center',
   ): Promise<SweetAlertResult> {
     return Swal.fire({
       title: title,

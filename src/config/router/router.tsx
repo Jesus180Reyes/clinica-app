@@ -2,7 +2,15 @@ import { Navigate, createBrowserRouter } from 'react-router-dom';
 import { HomePage } from '../../presentation/pages/home/HomePage';
 import { App } from '../../presentation/App';
 import { Auth } from '../../presentation/Auth';
-import { FacturacionPage, ObservacionesPage, PacienteLoginPage,SelectRolePage, SignosVitalesPage, TrabajadoresLoginPage, UsuariosPage } from '../../presentation/pages';
+import {
+  FacturacionPage,
+  ObservacionesPage,
+  PacienteLoginPage,
+  SelectRolePage,
+  SignosVitalesPage,
+  TrabajadoresLoginPage,
+  UsuariosPage,
+} from '../../presentation/pages';
 
 export class RouterAdapter {
   static router = createBrowserRouter([

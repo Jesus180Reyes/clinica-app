@@ -3,24 +3,23 @@
 @tailwind components;
 @tailwind utilities;
 
-
 .sidebar-container {
-    @apply bg-white; 
-    @apply min-h-[100vh] w-[15vw];
-    @apply ml-2;
-};
+  @apply bg-white;
+  @apply min-h-[100vh] w-[15vw];
+  @apply ml-2;
+}
 
 .sidebar-items-col {
-    @apply m-2  flex flex-col items-center; 
-    @apply text-lg  h-[80%];
-};
+  @apply m-2  flex flex-col items-center;
+  @apply text-lg  h-[80%];
+}
 
 .sidebar-item {
-    @apply  flex w-[100%] m-4 p-2; 
-    @apply rounded cursor-pointer; 
-    @apply items-center justify-center text-center;
+  @apply flex w-[100%] m-4 p-2;
+  @apply rounded cursor-pointer;
+  @apply items-center justify-center text-center;
 }
 
 .isSelected {
-    @apply bg-blue-200;
+  @apply bg-blue-200;
 }

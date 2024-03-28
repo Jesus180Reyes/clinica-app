@@ -1,6 +1,3 @@
-
 export const FacturacionPage = () => {
-  return (
-    <div>FacturacionPage</div>
-  )
-}
+  return <div>FacturacionPage</div>;
+};

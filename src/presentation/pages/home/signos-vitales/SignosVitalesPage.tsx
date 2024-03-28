@@ -1,6 +1,3 @@
-
 export const SignosVitalesPage = () => {
-  return (
-    <div>SignosVitalesPage</div>
-  )
-}
+  return <div>SignosVitalesPage</div>;
+};

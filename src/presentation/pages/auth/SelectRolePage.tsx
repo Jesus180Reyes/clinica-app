@@ -1,6 +1,3 @@
-
 export const SelectRolePage = () => {
-  return (
-    <div>SelectRolePage</div>
-  )
-}
+  return <div>SelectRolePage</div>;
+};
