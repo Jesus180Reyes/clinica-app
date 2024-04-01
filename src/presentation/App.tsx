@@ -6,7 +6,9 @@ export const App = () => {
     <>
       <div className='flex bg-[#F1F1F1]'>
         <SideBar />
+        <div className='flex flex-col'>
         <Outlet />
+        </div>
       </div>
     </>
   );
