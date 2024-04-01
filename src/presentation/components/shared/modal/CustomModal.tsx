@@ -15,7 +15,7 @@ const customStyles = {
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
     },
-  }
+}
 export const CustomModal:FC<Props> = ( { children, isActive =  false}) => {
   
       function afterOpenModal() {
@@ -30,7 +30,6 @@ export const CustomModal:FC<Props> = ( { children, isActive =  false}) => {
     
   return (
     <Modal
-        
         isOpen={isActive}
         onAfterOpen={afterOpenModal}
         onRequestClose={closeModal}
