@@ -5,18 +5,18 @@ export const FacturacionPage = () => {
   const colums = ['Hola', 'Como', 'esta'];
   const rows = [
     {
-      title: 'culo',
-      sexo: 'sexo',
+      title: 'NAME',
+      sexo: 'STATUS',
       saludo: 'dddd'
     },
     {
-      title: 'culo',
-      sexo: 'sexo',
+      title: 'NAME',
+      sexo: 'STATUS',
       saludo: 'dddd'
     },
     {
-      title: 'culo',
-      sexo: 'sexo',
+      title: 'NAME',
+      sexo: 'STATUS',
       saludo: 'dddd'
     }
   ]

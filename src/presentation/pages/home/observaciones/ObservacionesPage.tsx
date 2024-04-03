@@ -3,21 +3,21 @@ import { Profile_View } from '../../../components/layouts/profile/Profile_View';
 import { CustomButton } from '../../../components/shared/button/CustomButton';
 
 export const ObservacionesPage = () => {
-  const colums = ['Hola', 'Como', 'esta'];
+  const colums = ['COL1', 'COL2', 'COL3'];
   const rows = [
     {
-      title: 'culo',
-      sexo: 'sexo',
+      title: 'NAME',
+      sexo: 'STATUS',
       saludo: 'dddd'
     },
     {
-      title: 'culo',
-      sexo: 'sexo',
+      title: 'NAME',
+      sexo: 'STATUS',
       saludo: 'dddd'
     },
     {
-      title: 'culo',
-      sexo: 'sexo',
+      title: 'NAME',
+      sexo: 'STATUS',
       saludo: 'dddd'
     }
   ]
