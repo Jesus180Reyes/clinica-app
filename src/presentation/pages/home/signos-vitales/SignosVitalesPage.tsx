@@ -11,58 +11,60 @@ export const SignosVitalesPage = () => {
     {
       title: 'NAME',
       sexo: 'STATUS',
-      saludo: 'dddd'
+      saludo: 'dddd',
     },
     {
       title: 'NAME',
       sexo: 'STATUS',
-      saludo: 'dddd'
+      saludo: 'dddd',
     },
     {
       title: 'NAME',
       sexo: 'STATUS',
-      saludo: 'dddd'
-    }
-  ]
+      saludo: 'dddd',
+    },
+  ];
   return (
     <>
-    <Profile_View/>
-    <div >
-    <CustomButton onClick={() => setIsActive(!isActive)} title='Registrar Signo Vital' marginleft='ml-5' marginTop='mt-5'/>
-    </div>
-    <CustomTable columns={colums}>
-    {
-        ...rows.map( (e) => {
-          return  <>
-           <tr>
-          <td>{e.title}</td>
-          <td>{e.saludo}</td>
-           <div className='text-center flex items-center justify-center w-[100%] h-[100%]'>
-          <td className='bg-yellow-300 p-1 w-[100px]  rounded-2xl'>{e.sexo}</td> 
-          </div>
-          
-        </tr>
-          
-          </>
-        })
-      }
-
-    </CustomTable>
-    <CustomModal isActive={isActive} >
-    <div>
+      <Profile_View />
+      <div>
+        <CustomButton
+          onClick={() => setIsActive(!isActive)}
+          title='Registrar Signo Vital'
+          marginleft='ml-5'
+          marginTop='mt-5'
+        />
+      </div>
+      <CustomTable columns={colums}>
+        {...rows.map((e) => {
+          return (
+            <>
+              <tr>
+                <td>{e.title}</td>
+                <td>{e.saludo}</td>
+                <div className='text-center flex items-center justify-center w-[100%] h-[100%]'>
+                  <td className='bg-yellow-300 p-1 w-[100px]  rounded-2xl'>
+                    {e.sexo}
+                  </td>
+                </div>
+              </tr>
+            </>
+          );
+        })}
+      </CustomTable>
+      <CustomModal isActive={isActive}>
+        <div>
           <h1 onClick={() => setIsActive(false)}>TOCAR PARA SALIR</h1>
-      </div>
-      <div className='bg-white p-2'>
-        <h1>sajdlksajlkdsalkdjlk</h1>
-        <h1>sajdlksajlkdsalkdjlk</h1>
-        <h1>sajdlksajlkdsalkdjlk</h1>
-        <h1>sajdlksajlkdsalkdjlk</h1>
-        <h1>sajdlksajlkdsalkdjlk</h1>
-        <h1>sajdlksajlkdsalkdjlk</h1>
-      </div>
-    </CustomModal>
-    
-  
+        </div>
+        <div className='bg-white p-2'>
+          <h1>sajdlksajlkdsalkdjlk</h1>
+          <h1>sajdlksajlkdsalkdjlk</h1>
+          <h1>sajdlksajlkdsalkdjlk</h1>
+          <h1>sajdlksajlkdsalkdjlk</h1>
+          <h1>sajdlksajlkdsalkdjlk</h1>
+          <h1>sajdlksajlkdsalkdjlk</h1>
+        </div>
+      </CustomModal>
     </>
-  )
+  );
 };
