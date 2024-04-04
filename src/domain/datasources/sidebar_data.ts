@@ -27,8 +27,8 @@ export const sidebarData: SidebarEntitie[] = [
   },
   {
     id: 5,
-    title: 'Usuarios',
-    fontawesomeIcon: 'fa-solid fa-money-bill',
+    title: 'Pacientes',
+    fontawesomeIcon: 'fa-regular fa-user',
     route: '/usuarios',
   },
 ];

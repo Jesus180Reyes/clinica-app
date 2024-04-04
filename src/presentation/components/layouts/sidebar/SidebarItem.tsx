@@ -14,7 +14,6 @@ export const SidebarItem: FC<Props> = ({ sidebarItem, onClick, isActive }) => {
     onClick?.call(sidebarItem, sidebarItem.id);
     navigate(sidebarItem.route);
   };
-
   return (
     <>
       <div

@@ -5,8 +5,6 @@ import { Auth } from '../../presentation/Auth';
 import {
   FacturacionPage,
   ObservacionesPage,
-  PacienteLoginPage,
-  SelectRolePage,
   SignosVitalesPage,
   TrabajadoresLoginPage,
   UsuariosPage,
@@ -47,18 +45,18 @@ export class RouterAdapter {
       path: '/auth',
       element: <Auth />,
       children: [
-        {
-          path: 'paciente/login',
-          element: <PacienteLoginPage />,
-        },
+        // {
+        //   path: 'paciente/login',
+        //   element: <PacienteLoginPage />,
+        // },
         {
           path: 'trabajadores/login',
           element: <TrabajadoresLoginPage />,
         },
-        {
-          path: 'seleccionarRol',
-          element: <SelectRolePage />,
-        },
+        // {
+        //   path: 'seleccionarRol',
+        //   element: <SelectRolePage />,
+        // },
 
         { path: '*', element: <Navigate to='/auth/paciente/login' /> },
         { path: '/auth/*', element: <Navigate to='/auth/paciente/login' /> },
