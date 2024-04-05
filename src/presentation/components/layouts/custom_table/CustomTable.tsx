@@ -2,8 +2,7 @@ import { FC } from 'react';
 
 interface Props {
   columns: string[];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  children: any;
+  children: React.ReactNode;
 }
 
 export const CustomTable: FC<Props> = ({ columns, children }) => {

@@ -1,12 +1,11 @@
 import { FC } from 'react';
-import Modal from 'react-modal';
+import Modal, { Styles } from 'react-modal';
 
 interface Props {
   isActive: boolean;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  children: any;
+  children: React.ReactNode;
 }
-const customStyles = {
+const customStyles:Styles = {
   content: {
     top: '50%',
     left: '50%',
@@ -14,7 +13,10 @@ const customStyles = {
     bottom: 'auto',
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
+    minWidth: '500px',
+
   },
+  
 };
 export const CustomModal: FC<Props> = ({ children, isActive = false }) => {
   function afterOpenModal() {
