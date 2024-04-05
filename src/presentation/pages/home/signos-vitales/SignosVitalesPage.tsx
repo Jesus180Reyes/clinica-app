@@ -65,9 +65,9 @@ export const SignosVitalesPage = () => {
           );
         })}
       </CustomTable>
-      <CustomModal isActive={isActive}>
-        <div>
-          <h1 onClick={() => setIsActive(false)}>TOCAR PARA SALIR</h1>
+      <CustomModal isActive={isActive} onCloseModal={()=> setIsActive(false)}>
+        <div className='text-end'>
+          <i  onClick={() => setIsActive(false)} className='fa-solid fa-xmark cursor-pointer'></i>
         </div>
         <div className='mt-3'>
           <CustomTextfieldComponent
@@ -101,7 +101,7 @@ export const SignosVitalesPage = () => {
             title='Ingresa Signos Vitales'
             items={['O+', 'O-', 'A+']}
           />
-          <PrimaryButton title='Crear Paciente' />
+          <PrimaryButton title='Crear Paciente' onClick={() => console.log('click')} />
         </div>
       </CustomModal>
     </>

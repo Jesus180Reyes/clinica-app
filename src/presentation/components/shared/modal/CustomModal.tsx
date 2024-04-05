@@ -4,6 +4,7 @@ import Modal, { Styles } from 'react-modal';
 interface Props {
   isActive: boolean;
   children: React.ReactNode;
+  onCloseModal?: () => void;
 }
 const customStyles: Styles = {
   content: {
@@ -14,25 +15,27 @@ const customStyles: Styles = {
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
     minWidth: '500px',
+    borderRadius: '20px',
   },
+  overlay: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+  }
+  
 };
-export const CustomModal: FC<Props> = ({ children, isActive = false }) => {
+export const CustomModal: FC<Props> = ({ children, onCloseModal,isActive = false }) => {
   function afterOpenModal() {
     // references are now sync'd and can be accessed.
     // subtitle.style.color = '#f00';
   }
 
-  function closeModal() {
-    // setIsOpen(false);
-  }
-
   return (
     <Modal
-      isOpen={isActive}
-      onAfterOpen={afterOpenModal}
-      onRequestClose={closeModal}
-      style={customStyles}
-      contentLabel='Example Modal'
+    isOpen={isActive}
+    onAfterOpen={afterOpenModal}
+    style={customStyles}
+    contentLabel='Example Modal'
+    onRequestClose={onCloseModal}
+    shouldCloseOnOverlayClick={true}
     >
       {children}
     </Modal>

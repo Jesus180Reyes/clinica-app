@@ -5,6 +5,14 @@ interface Props {
   items: string[];
   onItemClicked: (item: string) => void;
 }
+/**
+ * Componente de Dropdown personalizado .
+ * Hecho Por Jesus Reyes.
+ * @param title - Titulo de Input.
+ * @param items - Items Totales.
+ * @param onItemClicked - Función llamada cuando cambia el valor del input ```(item) => void```.
+ 
+ */
 export const CustomDropdownComponent: FC<Props> = ({
   title,
   items,
