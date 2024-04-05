@@ -1,4 +1,4 @@
-import {  ChangeEvent, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { CustomTable } from '../../../components/layouts/custom_table/CustomTable';
 import { Profile_View } from '../../../components/layouts/profile/Profile_View';
 import { CustomButton } from '../../../components/shared/button/CustomButton';
@@ -10,7 +10,7 @@ import { PrimaryButton } from '../../../components/shared/button/PrimaryButton';
 export const SignosVitalesPage = () => {
   const [isActive, setIsActive] = useState<boolean>(false);
   const [pacienteNombre, setpacienteNombre] = useState<string>('');
-  const [, settipoSangreItem] = useState<string>('')
+  const [, settipoSangreItem] = useState<string>('');
 
   const onInputChange = (
     e: ChangeEvent<HTMLInputElement>,
@@ -70,14 +70,38 @@ export const SignosVitalesPage = () => {
           <h1 onClick={() => setIsActive(false)}>TOCAR PARA SALIR</h1>
         </div>
         <div className='mt-3'>
-
-        <CustomTextfieldComponent title='Ingresar DNI' value={pacienteNombre} onChange={(e)=> onInputChange(e, setpacienteNombre)}/>
-        <CustomTextfieldComponent title='Ingresar Nombre Completo' value={pacienteNombre} onChange={(e)=> onInputChange(e, setpacienteNombre)}/>
-        <CustomTextfieldComponent title='Ingresar Direccion' value={pacienteNombre} onChange={(e)=> onInputChange(e, setpacienteNombre)}/>
-        <CustomTextfieldComponent title='Correo Electronico' value={pacienteNombre} onChange={(e)=> onInputChange(e, setpacienteNombre)}/>
-        <CustomTextfieldComponent title='Fecha de Nacimiento' typeInput='date' value={pacienteNombre} onChange={(e)=> onInputChange(e, setpacienteNombre)}/>
-        <CustomDropdownComponent onItemClicked={(e) => settipoSangreItem(e) } title='Ingresa Signos Vitales' items={['O+', 'O-', 'A+']}/>
-        <PrimaryButton title='Crear Paciente'/>
+          <CustomTextfieldComponent
+            title='Ingresar DNI'
+            value={pacienteNombre}
+            onChange={(e) => onInputChange(e, setpacienteNombre)}
+          />
+          <CustomTextfieldComponent
+            title='Ingresar Nombre Completo'
+            value={pacienteNombre}
+            onChange={(e) => onInputChange(e, setpacienteNombre)}
+          />
+          <CustomTextfieldComponent
+            title='Ingresar Direccion'
+            value={pacienteNombre}
+            onChange={(e) => onInputChange(e, setpacienteNombre)}
+          />
+          <CustomTextfieldComponent
+            title='Correo Electronico'
+            value={pacienteNombre}
+            onChange={(e) => onInputChange(e, setpacienteNombre)}
+          />
+          <CustomTextfieldComponent
+            title='Fecha de Nacimiento'
+            typeInput='date'
+            value={pacienteNombre}
+            onChange={(e) => onInputChange(e, setpacienteNombre)}
+          />
+          <CustomDropdownComponent
+            onItemClicked={(e) => settipoSangreItem(e)}
+            title='Ingresa Signos Vitales'
+            items={['O+', 'O-', 'A+']}
+          />
+          <PrimaryButton title='Crear Paciente' />
         </div>
       </CustomModal>
     </>

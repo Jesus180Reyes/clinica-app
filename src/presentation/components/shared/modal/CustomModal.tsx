@@ -5,7 +5,7 @@ interface Props {
   isActive: boolean;
   children: React.ReactNode;
 }
-const customStyles:Styles = {
+const customStyles: Styles = {
   content: {
     top: '50%',
     left: '50%',
@@ -14,9 +14,7 @@ const customStyles:Styles = {
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
     minWidth: '500px',
-
   },
-  
 };
 export const CustomModal: FC<Props> = ({ children, isActive = false }) => {
   function afterOpenModal() {
