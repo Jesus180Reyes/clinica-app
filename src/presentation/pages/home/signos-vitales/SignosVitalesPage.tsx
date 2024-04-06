@@ -1,5 +1,8 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import { CustomTable, Status } from '../../../components/layouts/custom_table/CustomTable';
+import {
+  CustomTable,
+  Status,
+} from '../../../components/layouts/custom_table/CustomTable';
 import { Profile_View } from '../../../components/layouts/profile/Profile_View';
 import { CustomButton } from '../../../components/shared/button/CustomButton';
 import { CustomModal } from '../../../components/shared/modal/CustomModal';
@@ -13,14 +16,16 @@ import { useUsers } from '../../../hooks/useUsers';
 export const SignosVitalesPage = () => {
   const [isActive, setIsActive] = useState<boolean>(false);
   const [frecuenciaCardiac, setfrecuenciaCardiaca] = useState<string>('');
-  const [frecuenciaRespiratoria, setFrecuenciaRespiratoria] = useState<string>('');
+  const [frecuenciaRespiratoria, setFrecuenciaRespiratoria] =
+    useState<string>('');
   const [temperatura, setTemperatura] = useState<string>('');
   const [oxigeno, setOxigeno] = useState<string>('');
   const [observacionGeneral, setObservacionGeneral] = useState<string>('');
   const [, settipoSangreItem] = useState<string>('');
-  const [signosVitalesData, setSignosVitalesData] = useState<SignoVitalesResponse>();
+  const [signosVitalesData, setSignosVitalesData] =
+    useState<SignoVitalesResponse>();
   const [, setStatus] = useState<Status>(Status.notStarted);
-  const {usersResponse} = useUsers();
+  const { usersResponse } = useUsers();
 
   const onInputChange = (
     e: ChangeEvent<HTMLInputElement>,
@@ -28,22 +33,33 @@ export const SignosVitalesPage = () => {
   ) => {
     setValue(e.target.value);
   };
-  const getSignosVitales = async() => {
+  const getSignosVitales = async () => {
     setStatus(Status.inProgress);
-    const resp = await Api.instance<SignoVitalesResponse>('/api/signos-vitales');
-    
-    const data =  resp.data;
+    const resp = await Api.instance<SignoVitalesResponse>(
+      '/api/signos-vitales',
+    );
+
+    const data = resp.data;
     console.log(data);
     setSignosVitalesData(data);
     setStatus(Status.done);
-  }
+  };
 
   useEffect(() => {
     getSignosVitales();
   }, []);
 
-  const colums = ['Paciente', 'Frecuencia Cardiaca','Frecuencia Respiratoria', 'Presion Arterial','Temperatura','Oxigeno','Fecha de Creacion','Leido Por Doctor'];
-  
+  const colums = [
+    'Paciente',
+    'Frecuencia Cardiaca',
+    'Frecuencia Respiratoria',
+    'Presion Arterial',
+    'Temperatura',
+    'Oxigeno',
+    'Fecha de Creacion',
+    'Leido Por Doctor',
+  ];
+
   return (
     <>
       <Profile_View />
@@ -68,7 +84,9 @@ export const SignosVitalesPage = () => {
                 <td>{e.oxigeno}</td>
                 <td>{e.createdAt.toString()}</td>
                 <div className='text-center flex items-center justify-center w-[100%] h-[100%]'>
-                  <td className={`${e.leido_por_doctor ? 'bg-green-400' : 'bg-yellow-300'} p-1 w-[100px]  rounded-2xl`}>
+                  <td
+                    className={`${e.leido_por_doctor ? 'bg-green-400' : 'bg-yellow-300'} p-1 w-[100px]  rounded-2xl`}
+                  >
                     {e.leido_por_doctor ? 'Sí' : 'No'}
                   </td>
                 </div>
@@ -77,15 +95,20 @@ export const SignosVitalesPage = () => {
           );
         })}
       </CustomTable>
-      <CustomModal isActive={isActive} onCloseModal={()=> setIsActive(false)}>
+      <CustomModal isActive={isActive} onCloseModal={() => setIsActive(false)}>
         <div className='text-end'>
-          <i  onClick={() => setIsActive(false)} className='fa-solid fa-xmark cursor-pointer'></i>
+          <i
+            onClick={() => setIsActive(false)}
+            className='fa-solid fa-xmark cursor-pointer'
+          ></i>
         </div>
         <div className='mt-3'>
-        <CustomDropdownComponent
+          <CustomDropdownComponent
             onItemClicked={(e) => settipoSangreItem(e)}
             title='Ingresa Paciente'
-            items={usersResponse?.users.map(e => e.nombre) ?? ['No hay elementos']}
+            items={
+              usersResponse?.users.map((e) => e.nombre) ?? ['No hay elementos']
+            }
           />
           <CustomTextfieldComponent
             title='Frecuencia Cardiaca'
@@ -116,8 +139,11 @@ export const SignosVitalesPage = () => {
             value={observacionGeneral}
             onChange={(e) => onInputChange(e, setObservacionGeneral)}
           />
-        
-          <PrimaryButton title='Crear Signos Vitales' onClick={() => console.log('click')} />
+
+          <PrimaryButton
+            title='Crear Signos Vitales'
+            onClick={() => console.log('click')}
+          />
         </div>
       </CustomModal>
     </>

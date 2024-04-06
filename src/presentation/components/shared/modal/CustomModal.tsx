@@ -18,11 +18,14 @@ const customStyles: Styles = {
     borderRadius: '20px',
   },
   overlay: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', 
-  }
-  
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
 };
-export const CustomModal: FC<Props> = ({ children, onCloseModal,isActive = false }) => {
+export const CustomModal: FC<Props> = ({
+  children,
+  onCloseModal,
+  isActive = false,
+}) => {
   function afterOpenModal() {
     // references are now sync'd and can be accessed.
     // subtitle.style.color = '#f00';
@@ -30,12 +33,12 @@ export const CustomModal: FC<Props> = ({ children, onCloseModal,isActive = false
 
   return (
     <Modal
-    isOpen={isActive}
-    onAfterOpen={afterOpenModal}
-    style={customStyles}
-    contentLabel='Example Modal'
-    onRequestClose={onCloseModal}
-    shouldCloseOnOverlayClick={true}
+      isOpen={isActive}
+      onAfterOpen={afterOpenModal}
+      style={customStyles}
+      contentLabel='Example Modal'
+      onRequestClose={onCloseModal}
+      shouldCloseOnOverlayClick={true}
     >
       {children}
     </Modal>

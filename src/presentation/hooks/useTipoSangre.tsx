@@ -4,31 +4,30 @@ import { TipoSangre } from '../../domain/entities/interfaces/responses/UserRespo
 import { Status } from '../components/layouts/custom_table/CustomTable';
 
 interface TipoSangreResp {
-    ok: boolean;
-    tiposSangre: TipoSangre[]
+  ok: boolean;
+  tiposSangre: TipoSangre[];
 }
 export const useTipoSangre = () => {
-    const [status, setStatus] = useState(Status.notStarted);
-    const [tipoSangreResp, setTipoSangreResp] = useState<TipoSangreResp>();
-    const getTipoSangres = async():Promise<TipoSangreResp> => {
-        setStatus(Status.inProgress);
-        const resp = await Api.instance<TipoSangreResp>('/api/tipoSangre');
-        
-        const data =  resp.data;
-        console.log(data);
-        setTipoSangreResp(data);
-        setStatus(Status.done);
-        return data;
-      };
-      useEffect(() => {
-        getTipoSangres();
-      }, []);
+  const [status, setStatus] = useState(Status.notStarted);
+  const [tipoSangreResp, setTipoSangreResp] = useState<TipoSangreResp>();
+  const getTipoSangres = async (): Promise<TipoSangreResp> => {
+    setStatus(Status.inProgress);
+    const resp = await Api.instance<TipoSangreResp>('/api/tipoSangre');
+
+    const data = resp.data;
+    console.log(data);
+    setTipoSangreResp(data);
+    setStatus(Status.done);
+    return data;
+  };
+  useEffect(() => {
+    getTipoSangres();
+  }, []);
   return {
     // * Propiedades
     status,
     tipoSangreResp,
     // * Metodos
     getTipoSangres,
-
-  }
-}
+  };
+};

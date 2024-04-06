@@ -11,7 +11,7 @@ import { useUsers } from '../../../hooks/useUsers';
 import { useTipoSangre } from '../../../hooks/useTipoSangre';
 
 export const UsuariosPage = () => {
-  const {status, usersResponse} = useUsers();
+  const { status, usersResponse } = useUsers();
   const [isActive, setIsActive] = useState<boolean>(false);
   const [dni, setDni] = useState<string>('');
   const [nombre, setNombre] = useState<string>('');
@@ -20,7 +20,7 @@ export const UsuariosPage = () => {
   const [birthday, setBirthday] = useState<string>('');
   const [, settipoSangreItem] = useState<string>('');
 
-  const {tipoSangreResp} = useTipoSangre();
+  const { tipoSangreResp } = useTipoSangre();
 
   const onInputChange = (
     e: ChangeEvent<HTMLInputElement>,
@@ -30,7 +30,14 @@ export const UsuariosPage = () => {
   };
   const isAdmin = true;
 
-  const colums = ['N.','DNI','Direccion','Nombre', 'Correo Electronico', 'Aprobado por Auxiliar Medico'];
+  const colums = [
+    'N.',
+    'DNI',
+    'Direccion',
+    'Nombre',
+    'Correo Electronico',
+    'Aprobado por Auxiliar Medico',
+  ];
   if (!isAdmin) return <NoPermissionGrantedComponent />;
   return (
     <>
@@ -45,18 +52,20 @@ export const UsuariosPage = () => {
       </div>
 
       <CustomTable columns={colums} status={status}>
-        {usersResponse?.users.map((e,i) => {
+        {usersResponse?.users.map((e, i) => {
           return (
             <>
               <tr className='m-10 h-[50px]  hover:bg-[#F1F1F1] cursor-pointer'>
-                <td className=''>{i +1}</td>
+                <td className=''>{i + 1}</td>
                 <td className=''>{e.dni}</td>
                 <td className=''>{e.direccion}</td>
                 <td className=''>{e.nombre}</td>
                 <td className=''>{e.email}</td>
                 <div className='text-center flex items-center justify-center w-[100%] h-[100%]'>
-                  <td className={`${  !e.leido_por_auxiliar_medico ? 'bg-yellow-300' :'bg-green-400' } p-1 w-[100px]  rounded-2xl`}>
-                    {e.leido_por_auxiliar_medico ? 'Si': 'No'}
+                  <td
+                    className={`${!e.leido_por_auxiliar_medico ? 'bg-yellow-300' : 'bg-green-400'} p-1 w-[100px]  rounded-2xl`}
+                  >
+                    {e.leido_por_auxiliar_medico ? 'Si' : 'No'}
                   </td>
                 </div>
               </tr>
@@ -64,13 +73,16 @@ export const UsuariosPage = () => {
           );
         })}
       </CustomTable>
-      <CustomModal isActive={isActive} >
-      <div className='text-end'>
-          <i  onClick={() => setIsActive(false)} className='fa-solid fa-xmark cursor-pointer'></i>
+      <CustomModal isActive={isActive}>
+        <div className='text-end'>
+          <i
+            onClick={() => setIsActive(false)}
+            className='fa-solid fa-xmark cursor-pointer'
+          ></i>
         </div>
         <div className='mt-3'>
           <CustomTextfieldComponent
-           typeInput='number'
+            typeInput='number'
             title='Ingresar DNI'
             value={dni}
             onChange={(e) => onInputChange(e, setDni)}
@@ -100,9 +112,17 @@ export const UsuariosPage = () => {
           <CustomDropdownComponent
             onItemClicked={(e) => settipoSangreItem(e)}
             title='Ingresa Signos Vitales'
-            items={tipoSangreResp?.tiposSangre.map(e => ({id: e.id, title: e.nombre})) ?? [{id: 0, title: ''}]}
+            items={
+              tipoSangreResp?.tiposSangre.map((e) => ({
+                id: e.id,
+                title: e.nombre,
+              })) ?? [{ id: 0, title: '' }]
+            }
           />
-          <PrimaryButton title='Crear Paciente' onClick={() => console.log('click')} />
+          <PrimaryButton
+            title='Crear Paciente'
+            onClick={() => console.log('click')}
+          />
         </div>
       </CustomModal>
     </>

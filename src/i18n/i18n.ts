@@ -1,3 +1,1 @@
-export class I18nInstance {
-    
-}
+export class I18nInstance {}
