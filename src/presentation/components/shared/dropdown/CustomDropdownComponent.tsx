@@ -1,8 +1,9 @@
 import { FC, useState } from 'react';
+import { Item } from '../../../../domain/datasources/item';
 
 interface Props {
   title: string;
-  items: string[];
+  items: Item[];
   onItemClicked: (item: string) => void;
 }
 /**
@@ -62,11 +63,11 @@ export const CustomDropdownComponent: FC<Props> = ({
               {items.map((e) => {
                 return (
                   <a
-                    onClick={() => itemClickedFunction(e)}
+                    onClick={() => itemClickedFunction(e.title)}
                     className='flex  rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer'
                     role='menuitem'
                   >
-                    {e}
+                    {e.title}
                   </a>
                 );
               })}

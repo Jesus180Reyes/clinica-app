@@ -8,6 +8,7 @@ import { CustomTextfieldComponent } from '../../../components/shared/input/Custo
 import { CustomModal } from '../../../components/shared/modal/CustomModal';
 import { NoPermissionGrantedComponent } from '../../../components/shared/permission/NoPermissionGrantedComponent';
 import { useUsers } from '../../../hooks/useUsers';
+import { useTipoSangre } from '../../../hooks/useTipoSangre';
 
 export const UsuariosPage = () => {
   const {status, usersResponse} = useUsers();
@@ -18,6 +19,8 @@ export const UsuariosPage = () => {
   const [email, setEmail] = useState<string>('');
   const [birthday, setBirthday] = useState<string>('');
   const [, settipoSangreItem] = useState<string>('');
+
+  const {tipoSangreResp} = useTipoSangre();
 
   const onInputChange = (
     e: ChangeEvent<HTMLInputElement>,
@@ -97,7 +100,7 @@ export const UsuariosPage = () => {
           <CustomDropdownComponent
             onItemClicked={(e) => settipoSangreItem(e)}
             title='Ingresa Signos Vitales'
-            items={['O+', 'O-', 'A+']}
+            items={tipoSangreResp?.tiposSangre.map(e => ({id: e.id, title: e.nombre})) ?? [{id: 0, title: ''}]}
           />
           <PrimaryButton title='Crear Paciente' onClick={() => console.log('click')} />
         </div>
