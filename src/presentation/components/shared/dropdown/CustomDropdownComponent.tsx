@@ -31,7 +31,7 @@ export const CustomDropdownComponent: FC<Props> = ({
         <button
           onClick={() => setIsOpen(!isOpen)}
           id='dropdown-button'
-          className='text-left flex justify-between w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blue-500'
+          className='text-left flex justify-between mb-4 w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blue-500'
         >
           {currentValueSelected !== undefined ? currentValueSelected : title}
           <svg
@@ -51,7 +51,7 @@ export const CustomDropdownComponent: FC<Props> = ({
         {isOpen && (
           <div
             id='dropdown-menu'
-            className='  mt-2 w-full rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5'
+            className=' h-[200px] overflow-y-auto  mt-2 w-full rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5'
           >
             <div
               className='py-2 p-2'

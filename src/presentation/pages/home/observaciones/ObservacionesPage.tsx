@@ -1,6 +1,5 @@
 import { CustomTable } from '../../../components/layouts/custom_table/CustomTable';
 import { Profile_View } from '../../../components/layouts/profile/Profile_View';
-import { CustomButton } from '../../../components/shared/button/CustomButton';
 
 export const ObservacionesPage = () => {
   const colums = ['COL1', 'COL2', 'COL3'];
@@ -24,14 +23,6 @@ export const ObservacionesPage = () => {
   return (
     <>
       <Profile_View />
-      <div>
-        <CustomButton
-          onClick={() => console.log('Click Aqui!!')}
-          title='Crear Observacion'
-          marginleft='ml-5'
-          marginTop='mt-5'
-        />
-      </div>
       <CustomTable columns={colums}>
         {...rows.map((e) => {
           return (
