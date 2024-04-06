@@ -107,7 +107,7 @@ export const SignosVitalesPage = () => {
             onItemClicked={(e) => settipoSangreItem(e)}
             title='Ingresa Paciente'
             items={
-              usersResponse?.users.map((e) => e.nombre) ?? ['No hay elementos']
+              usersResponse?.users.map((e) => ({id: e.id, title: e.nombre})) ?? [({id: 0, title: ''})]
             }
           />
           <CustomTextfieldComponent
