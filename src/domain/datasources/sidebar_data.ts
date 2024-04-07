@@ -31,4 +31,23 @@ export const sidebarData: SidebarEntitie[] = [
     fontawesomeIcon: 'fa-regular fa-user',
     route: '/usuarios',
   },
+  {
+    id: 6,
+    title: 'Historial Medico',
+    fontawesomeIcon: 'fa-solid fa-stethoscope',
+    route: '/historial-medico',
+  },
+  
+  {
+    id: 7,
+    title: 'Examenes Resultados',
+    fontawesomeIcon: 'fa-solid fa-prescription-bottle',
+    route: '/examenes-resultados',
+  },
+  {
+    id: 8,
+    title: 'Agregar Trabajador',
+    fontawesomeIcon: 'fa-solid fa-prescription-bottle',
+    route: '/agregar-trabajador',
+  },
 ];

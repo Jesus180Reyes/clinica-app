@@ -9,6 +9,8 @@ import {
   TrabajadoresLoginPage,
   UsuariosPage,
 } from '../../presentation/pages';
+import { HistorialMedicoPage } from '../../presentation/pages/home/historial-medico/HistorialMedicoPage';
+import { ExamenesResultadosPage } from '../../presentation/pages/home/examenes-resultados/ExamenesResultadosPage';
 
 export class RouterAdapter {
   static router = createBrowserRouter([
@@ -32,6 +34,15 @@ export class RouterAdapter {
         {
           path: 'facturacion',
           element: <FacturacionPage />,
+        },
+        {
+          path: 'historial-medico',
+          element: <HistorialMedicoPage />,
+        },
+        
+        {
+          path: 'examenes-resultados',
+          element: <ExamenesResultadosPage />,
         },
         {
           path: 'usuarios',

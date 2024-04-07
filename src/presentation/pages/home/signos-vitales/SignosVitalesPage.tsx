@@ -24,7 +24,7 @@ export const SignosVitalesPage = () => {
   const [, settipoSangreItem] = useState<string>('');
   const [signosVitalesData, setSignosVitalesData] =
     useState<SignoVitalesResponse>();
-  const [, setStatus] = useState<Status>(Status.notStarted);
+  const [status, setStatus] = useState<Status>(Status.notStarted);
   const { usersResponse } = useUsers();
 
   const onInputChange = (
@@ -71,7 +71,7 @@ export const SignosVitalesPage = () => {
           marginTop='mt-5'
         />
       </div>
-      <CustomTable columns={colums}>
+      <CustomTable columns={colums} status={status}>
         {signosVitalesData?.signosVitales.map((e) => {
           return (
             <>

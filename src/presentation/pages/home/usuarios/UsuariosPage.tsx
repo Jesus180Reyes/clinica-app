@@ -111,7 +111,7 @@ export const UsuariosPage = () => {
           />
           <CustomDropdownComponent
             onItemClicked={(e) => settipoSangreItem(e)}
-            title='Ingresa Signos Vitales'
+            title='Ingresa Tipo de Sangre'
             items={
               tipoSangreResp?.tiposSangre.map((e) => ({
                 id: e.id,
