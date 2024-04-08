@@ -12,7 +12,7 @@ export const SideBar = () => {
     <>
       <div className='sidebar-container'>
         <h1 className='text-3xl text-center flex items-center justify-center font-bold h-[10%]  text-ellipsis'>
-          Clinica La pope
+          Clinica UTH
         </h1>
         <div className='sidebar-items-col'>
           {...sidebarData.map((e) => (

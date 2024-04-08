@@ -1,12 +1,12 @@
 import { SidebarEntitie } from '../entities/sidebar_entitie';
 
 export const sidebarData: SidebarEntitie[] = [
-  {
-    id: 1,
-    title: 'Dashboard',
-    fontawesomeIcon: 'fa-solid fa-briefcase-medical',
-    route: '/',
-  },
+  // {
+  //   id: 1,
+  //   title: 'Dashboard',
+  //   fontawesomeIcon: 'fa-solid fa-briefcase-medical',
+  //   route: '/',
+  // },
   {
     id: 2,
     title: 'Signos Vitales',
@@ -27,7 +27,7 @@ export const sidebarData: SidebarEntitie[] = [
   },
   {
     id: 5,
-    title: 'Pacientes',
+    title: 'Citas',
     fontawesomeIcon: 'fa-regular fa-user',
     route: '/usuarios',
   },

@@ -45,7 +45,7 @@ export const UsuariosPage = () => {
       <div>
         <CustomButton
           onClick={() => setIsActive(!isActive)}
-          title='Crear Paciente'
+          title='Ingresar paciente'
           marginleft='ml-5'
           marginTop='mt-5'
         />
@@ -120,7 +120,7 @@ export const UsuariosPage = () => {
             }
           />
           <PrimaryButton
-            title='Crear Paciente'
+            title='Crear Cita'
             onClick={() => console.log('click')}
           />
         </div>
