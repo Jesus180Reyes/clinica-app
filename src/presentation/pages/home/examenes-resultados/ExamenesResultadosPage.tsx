@@ -1,41 +1,45 @@
 import { useEffect, useState } from 'react';
-import { Profile_View } from '../../../components/layouts/profile/Profile_View'
+import { Profile_View } from '../../../components/layouts/profile/Profile_View';
 import { Api } from '../../../../config/api/api';
 import { ExamenesResultadosResponse } from '../../../../domain/entities/interfaces/responses/examenesResultadosResp';
-import { CustomTable, Status } from '../../../components/layouts/custom_table/CustomTable';
+import {
+  CustomTable,
+  Status,
+} from '../../../components/layouts/custom_table/CustomTable';
 
 export const ExamenesResultadosPage = () => {
-    const [examenesResp, setexamenesResp] = useState<ExamenesResultadosResponse>();
-    const [status, setStatus] = useState<Status>(Status.notStarted);
-    const getHistoriales = async():Promise<ExamenesResultadosResponse> => {
-        setStatus(Status.inProgress)
-        const resp = await Api.instance.get<ExamenesResultadosResponse>('/api/examenes/resultados');
-        const data = resp.data;
-        setexamenesResp(data);
-        setStatus(Status.done)
-        return data;
-    }
+  const [examenesResp, setexamenesResp] =
+    useState<ExamenesResultadosResponse>();
+  const [status, setStatus] = useState<Status>(Status.notStarted);
+  const getHistoriales = async (): Promise<ExamenesResultadosResponse> => {
+    setStatus(Status.inProgress);
+    const resp = await Api.instance.get<ExamenesResultadosResponse>(
+      '/api/examenes/resultados',
+    );
+    const data = resp.data;
+    setexamenesResp(data);
+    setStatus(Status.done);
+    return data;
+  };
 
-    useEffect(() => {
+  useEffect(() => {
     getHistoriales();
-    
-      
-    }, []);
-    const colums = [
-        'N.',
-        'Paciente',
-        'Paciente DNI',
-        'Examen',
-        'Trabajador',
-        'Trabajdor Profesion',
-        'Observacion General',
-        'Fecha de Creacion',
-      ];
+  }, []);
+  const colums = [
+    'N.',
+    'Paciente',
+    'Paciente DNI',
+    'Examen',
+    'Trabajador',
+    'Trabajdor Profesion',
+    'Observacion General',
+    'Fecha de Creacion',
+  ];
   return (
     <>
-    <Profile_View />
-    <CustomTable columns={colums} status={status}>
-        {examenesResp?.examenes.map((e,i) => {
+      <Profile_View />
+      <CustomTable columns={colums} status={status}>
+        {examenesResp?.examenes.map((e, i) => {
           return (
             <>
               <tr className='m-10 h-[50px]  hover:bg-[#F1F1F1] cursor-pointer'>
@@ -52,8 +56,6 @@ export const ExamenesResultadosPage = () => {
           );
         })}
       </CustomTable>
-    
-    
     </>
-  )
-}
+  );
+};

@@ -1,4 +1,7 @@
-import { CustomTable, Status } from '../../../components/layouts/custom_table/CustomTable';
+import {
+  CustomTable,
+  Status,
+} from '../../../components/layouts/custom_table/CustomTable';
 import { Profile_View } from '../../../components/layouts/profile/Profile_View';
 import { Api } from '../../../../config/api/api';
 import { useState, useEffect } from 'react';
@@ -8,8 +11,8 @@ export const FacturacionPage = () => {
   const [status, setStatus] = useState<Status>(Status.notStarted);
   const [facturasResp, setFacturasResp] = useState<FacturaResponse>();
 
-  const getFacturas = async():Promise<FacturaResponse> => {
-    setStatus(Status.inProgress)
+  const getFacturas = async (): Promise<FacturaResponse> => {
+    setStatus(Status.inProgress);
     const resp = await Api.instance.get<FacturaResponse>('/api/factura');
 
     const data = resp.data;
@@ -17,20 +20,28 @@ export const FacturacionPage = () => {
     setStatus(Status.done);
 
     return data;
-  }
+  };
   useEffect(() => {
     getFacturas();
-  
-    
   }, []);
-  
-  const colums = ['N.','Paciente', 'Trabajador','Habitacion','Estadia','Profesion de Trabajador', 'Metodo de Pago', 'Subtotal', 'Total'];
+
+  const colums = [
+    'N.',
+    'Paciente',
+    'Trabajador',
+    'Habitacion',
+    'Estadia',
+    'Profesion de Trabajador',
+    'Metodo de Pago',
+    'Subtotal',
+    'Total',
+  ];
 
   return (
     <>
       <Profile_View />
       <CustomTable columns={colums} status={status}>
-        {facturasResp?.facturas.map((e,i) => {
+        {facturasResp?.facturas.map((e, i) => {
           return (
             <tr className='m-10 h-[50px]  hover:bg-[#F1F1F1] cursor-pointer'>
               <td className='font-bold'>{i + 1}</td>

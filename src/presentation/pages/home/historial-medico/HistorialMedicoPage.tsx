@@ -1,7 +1,10 @@
 import { Api } from '../../../../config/api/api';
 import { HistorialMedicoResponse } from '../../../../domain/entities/interfaces/responses/historialMedicoResponse';
-import { CustomTable, Status } from '../../../components/layouts/custom_table/CustomTable';
-import { Profile_View } from '../../../components/layouts/profile/Profile_View'
+import {
+  CustomTable,
+  Status,
+} from '../../../components/layouts/custom_table/CustomTable';
+import { Profile_View } from '../../../components/layouts/profile/Profile_View';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { CustomButton } from '../../../components/shared/button/CustomButton';
 import { PrimaryButton } from '../../../components/shared/button/PrimaryButton';
@@ -11,62 +14,62 @@ import { CustomModal } from '../../../components/shared/modal/CustomModal';
 import { useUsers } from '../../../hooks/useUsers';
 
 export const HistorialMedicoPage = () => {
-    const [historialesResp, setHistorialesResp] = useState<HistorialMedicoResponse>();
-    const [status, setStatus] = useState<Status>(Status.notStarted);
-    const [isActive, setIsActive] = useState<boolean>(false);
-    const [dni, setDni] = useState<string>('');
+  const [historialesResp, setHistorialesResp] =
+    useState<HistorialMedicoResponse>();
+  const [status, setStatus] = useState<Status>(Status.notStarted);
+  const [isActive, setIsActive] = useState<boolean>(false);
+  const [dni, setDni] = useState<string>('');
   // const [nombre, setNombre] = useState<string>('');
   // const [direccion, setDireccion] = useState<string>('');
   // const [email, setEmail] = useState<string>('');
   // const [birthday, setBirthday] = useState<string>('');
-  const {usersResponse} = useUsers();
+  const { usersResponse } = useUsers();
   const [, settipoSangreItem] = useState<string>('');
 
-    const getHistoriales = async():Promise<HistorialMedicoResponse> => {
-        setStatus(Status.inProgress);
-        const resp = await Api.instance.get<HistorialMedicoResponse>('/api/historial-medico');
-        const data = resp.data;
-        setHistorialesResp(data);
-        setStatus(Status.done);
+  const getHistoriales = async (): Promise<HistorialMedicoResponse> => {
+    setStatus(Status.inProgress);
+    const resp = await Api.instance.get<HistorialMedicoResponse>(
+      '/api/historial-medico',
+    );
+    const data = resp.data;
+    setHistorialesResp(data);
+    setStatus(Status.done);
 
-        return data;
-    }
-    const onInputChange = (
-      e: ChangeEvent<HTMLInputElement>,
-      setValue: React.Dispatch<React.SetStateAction<string>>,
-    ) => {
-      setValue(e.target.value);
-    };
+    return data;
+  };
+  const onInputChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    setValue: React.Dispatch<React.SetStateAction<string>>,
+  ) => {
+    setValue(e.target.value);
+  };
 
-    useEffect(() => {
+  useEffect(() => {
     getHistoriales();
-    
-      
-    }, []);
-    
-    const colums = [
-        'N.',
-        'Paciente',
-        'Paciente DNI',
-        'Diagnostico',
-        'Tratamiento',
-        'Observacion Por:',
-        'Fecha de Creacion',
-      ];
+  }, []);
+
+  const colums = [
+    'N.',
+    'Paciente',
+    'Paciente DNI',
+    'Diagnostico',
+    'Tratamiento',
+    'Observacion Por:',
+    'Fecha de Creacion',
+  ];
   return (
     <>
-    <Profile_View />
-    <div>
+      <Profile_View />
+      <div>
         <CustomButton
           onClick={() => setIsActive(!isActive)}
           title='Registrar Historial Medico'
           marginleft='ml-5'
           marginTop='mt-5'
-          
         />
       </div>
-    <CustomTable columns={colums} status={status}>
-        {historialesResp?.historiales.map((e,i) => {
+      <CustomTable columns={colums} status={status}>
+        {historialesResp?.historiales.map((e, i) => {
           return (
             <>
               <tr className='m-10 h-[50px]  hover:bg-[#F1F1F1] cursor-pointer'>
@@ -90,12 +93,16 @@ export const HistorialMedicoPage = () => {
           ></i>
         </div>
         <div className='mt-3'>
-          
-           <CustomDropdownComponent
-             onItemClicked={(e) => settipoSangreItem(e)}
-             title='Ingresa Paciente'
-             items={usersResponse?.users.map(e => ({id: e.id, title: e.nombre})) ?? []}
-           />
+          <CustomDropdownComponent
+            onItemClicked={(e) => settipoSangreItem(e)}
+            title='Ingresa Paciente'
+            items={
+              usersResponse?.users.map((e) => ({
+                id: e.id,
+                title: e.nombre,
+              })) ?? []
+            }
+          />
           <CustomTextfieldComponent
             title='Ingresar Diagnostico'
             value={dni}
@@ -106,14 +113,13 @@ export const HistorialMedicoPage = () => {
             value={dni}
             onChange={(e) => onInputChange(e, setDni)}
           />
-         
+
           <PrimaryButton
             title='Crear Historial Medico'
             onClick={() => console.log('click')}
           />
         </div>
       </CustomModal>
-    
     </>
-  )
-}
+  );
+};

@@ -1,67 +1,77 @@
-import {   useState } from 'react'
-import { CustomTable } from '../../../components/layouts/custom_table/CustomTable'
-import { Profile_View } from '../../../components/layouts/profile/Profile_View'
-import { CustomButton } from '../../../components/shared/button/CustomButton'
-import { CustomModal } from '../../../components/shared/modal/CustomModal'
-import { PrimaryButton } from '../../../components/shared/button/PrimaryButton'
-import { CustomTextfieldComponent } from '../../../components/shared/input/CustomTextfieldComponent'
-import { useTipoSangre } from '../../../hooks/useTipoSangre'
-import { useForm } from '../../../hooks/form/useForm'
-import { CustomDropdownComponent } from '../../../components/shared/dropdown/CustomDropdownComponent'
-import { useTrabajadores } from '../../../hooks/useTrabajadores'
-import { useProfesiones } from '../../../hooks/useProfesiones'
-import { useRoles } from '../../../hooks/useRoles'
+import { useState } from 'react';
+import { CustomTable } from '../../../components/layouts/custom_table/CustomTable';
+import { Profile_View } from '../../../components/layouts/profile/Profile_View';
+import { CustomButton } from '../../../components/shared/button/CustomButton';
+import { CustomModal } from '../../../components/shared/modal/CustomModal';
+import { PrimaryButton } from '../../../components/shared/button/PrimaryButton';
+import { CustomTextfieldComponent } from '../../../components/shared/input/CustomTextfieldComponent';
+import { useTipoSangre } from '../../../hooks/useTipoSangre';
+import { useForm } from '../../../hooks/form/useForm';
+import { CustomDropdownComponent } from '../../../components/shared/dropdown/CustomDropdownComponent';
+import { useTrabajadores } from '../../../hooks/useTrabajadores';
+import { useProfesiones } from '../../../hooks/useProfesiones';
+import { useRoles } from '../../../hooks/useRoles';
 
 export const AgregarTrabajadorPage = () => {
-    const {tipoSangreResp} = useTipoSangre();
-    const {trabajadoresResp} = useTrabajadores();
-    const {profesion} = useProfesiones();
-    const {roles} = useRoles();
+  const { tipoSangreResp } = useTipoSangre();
+  const { trabajadoresResp } = useTrabajadores();
+  const { profesion } = useProfesiones();
+  const { roles } = useRoles();
 
-    const [ ,settipoSangreItem] = useState<string>();
-    const [isActive, setIsActive] = useState<boolean>(false);
-    const { values, handleChange,resetForm}  = useForm({ nombre: '',dni: '',direccion: '',email: '', password: ''  }); 
-    
-    const handleSubmit = () => {
-        console.log('Formulario enviado:', values);
-        resetForm();
-      };
-    
-    const columns = [
-        'N.',
-        'Nombre Trabajador',
-        'Dni',
-        'Email',
-        'Direccion',
-        'Fecha de Creacion',
-    ]
-    
+  const [, settipoSangreItem] = useState<string>();
+  const [isActive, setIsActive] = useState<boolean>(false);
+  const { values, handleChange, resetForm } = useForm({
+    nombre: '',
+    dni: '',
+    direccion: '',
+    email: '',
+    password: '',
+  });
+
+  const handleSubmit = () => {
+    console.log('Formulario enviado:', values);
+    resetForm();
+  };
+
+  const columns = [
+    'N.',
+    'Nombre Trabajador',
+    'Dni',
+    'Email',
+    'Direccion',
+    'Fecha de Creacion',
+  ];
+
   return (
     <>
-    <Profile_View/>
-    <div className='ml-4 mt-4'>
-
-    <CustomButton title={'Agregar Trabajador'} onClick={() => setIsActive(!isActive)}/>
-    </div>
-    <CustomTable columns={columns} >
-    {trabajadoresResp?.map((e, i) => {
+      <Profile_View />
+      <div className='ml-4 mt-4'>
+        <CustomButton
+          title={'Agregar Trabajador'}
+          onClick={() => setIsActive(!isActive)}
+        />
+      </div>
+      <CustomTable columns={columns}>
+        {trabajadoresResp?.map((e, i) => {
           return (
             <>
-              <tr key={i}  className='p-4 m-10 h-[50px]  hover:bg-[#F1F1F1] cursor-pointer'>
+              <tr
+                key={i}
+                className='p-4 m-10 h-[50px]  hover:bg-[#F1F1F1] cursor-pointer'
+              >
                 <td className='font-bold'>{i + 1}</td>
                 <td>{e.nombre}</td>
                 <td>{e.dni}</td>
                 <td>{e.email}</td>
                 <td>{e.direccion}</td>
                 <td>{e.createdAt.toString()}</td>
-               
               </tr>
             </>
           );
         })}
-    </CustomTable>
-    <CustomModal isActive={isActive} >
-    <div className='text-end'>
+      </CustomTable>
+      <CustomModal isActive={isActive}>
+        <div className='text-end'>
           <i
             onClick={() => setIsActive(false)}
             className='fa-solid fa-xmark cursor-pointer'
@@ -101,7 +111,7 @@ export const AgregarTrabajadorPage = () => {
             typeInput='password'
             onChange={handleChange}
           />
-         
+
           <CustomDropdownComponent
             onItemClicked={(e) => settipoSangreItem(e)}
             title='Ingresa Tipo de Sangre'
@@ -112,7 +122,7 @@ export const AgregarTrabajadorPage = () => {
               })) ?? []
             }
           />
-           <CustomDropdownComponent
+          <CustomDropdownComponent
             onItemClicked={(e) => settipoSangreItem(e)}
             title='Ingresa Profesion de Trabajador'
             items={
@@ -132,13 +142,9 @@ export const AgregarTrabajadorPage = () => {
               })) ?? []
             }
           />
-          <PrimaryButton
-            title='Crear Trabajador'
-            onClick={handleSubmit}
-          />
+          <PrimaryButton title='Crear Trabajador' onClick={handleSubmit} />
         </div>
-
-    </CustomModal>
+      </CustomModal>
     </>
-  )
-}
+  );
+};

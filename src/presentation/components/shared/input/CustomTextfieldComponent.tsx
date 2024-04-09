@@ -38,7 +38,7 @@ export const CustomTextfieldComponent: FC<Props> = ({
   disabled,
   placeholder,
   typeInput = 'text',
-  name
+  name,
 }) => {
   return (
     <>

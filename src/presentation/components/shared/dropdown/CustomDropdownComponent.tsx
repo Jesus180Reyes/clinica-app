@@ -60,7 +60,7 @@ export const CustomDropdownComponent: FC<Props> = ({
               aria-orientation='vertical'
               aria-labelledby='dropdown-button'
             >
-              {items.length === 0 && 'No Items para agregar.' }
+              {items.length === 0 && 'No Items para agregar.'}
               {items.map((e) => {
                 return (
                   <a

@@ -40,7 +40,7 @@ export class RouterAdapter {
           path: 'historial-medico',
           element: <HistorialMedicoPage />,
         },
-        
+
         {
           path: 'examenes-resultados',
           element: <ExamenesResultadosPage />,

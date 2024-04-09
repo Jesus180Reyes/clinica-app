@@ -37,7 +37,7 @@ export const sidebarData: SidebarEntitie[] = [
     fontawesomeIcon: 'fa-solid fa-stethoscope',
     route: '/historial-medico',
   },
-  
+
   {
     id: 7,
     title: 'Examenes Resultados',
