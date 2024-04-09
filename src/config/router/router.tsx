@@ -11,6 +11,7 @@ import {
 } from '../../presentation/pages';
 import { HistorialMedicoPage } from '../../presentation/pages/home/historial-medico/HistorialMedicoPage';
 import { ExamenesResultadosPage } from '../../presentation/pages/home/examenes-resultados/ExamenesResultadosPage';
+import { AgregarTrabajadorPage } from '../../presentation/pages/home/agregar-trabajador/AgregarTrabajadorPage';
 
 export class RouterAdapter {
   static router = createBrowserRouter([
@@ -47,6 +48,10 @@ export class RouterAdapter {
         {
           path: 'usuarios',
           element: <UsuariosPage />,
+        },
+        {
+          path: 'agregar-trabajador',
+          element: <AgregarTrabajadorPage />,
         },
 
         { path: '*', element: <Navigate to='/' /> },

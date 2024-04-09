@@ -15,7 +15,6 @@ export const useTipoSangre = () => {
     const resp = await Api.instance<TipoSangreResp>('/api/tipoSangre');
 
     const data = resp.data;
-    console.log(data);
     setTipoSangreResp(data);
     setStatus(Status.done);
     return data;

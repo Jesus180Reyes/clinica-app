@@ -27,3 +27,11 @@ export interface Examen {
     createdAt: Date;
     updatedAt: Date;
 }
+
+
+export interface Role {
+    id: number;
+    nombre: string;
+    createdAt: Date;
+    updatedAt: Date;
+}

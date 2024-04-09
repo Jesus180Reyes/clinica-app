@@ -15,6 +15,8 @@ interface Props {
   disabled?: boolean;
   // * Indica si hay error en el input
   error?: boolean;
+
+  name?: string;
 }
 /**
  * Componente de input personalizado .
@@ -26,6 +28,7 @@ interface Props {
  * @param placeholder - Texto de marcador de posición para el input.
  * @param error - Mensaje de error a mostrar.
  * @param disabled - Indica si el input está deshabilitado.
+ * @param name - Nombre de valor a Ingresar .
  */
 export const CustomTextfieldComponent: FC<Props> = ({
   title,
@@ -35,6 +38,7 @@ export const CustomTextfieldComponent: FC<Props> = ({
   disabled,
   placeholder,
   typeInput = 'text',
+  name
 }) => {
   return (
     <>
@@ -42,6 +46,7 @@ export const CustomTextfieldComponent: FC<Props> = ({
         {title}
       </label>
       <input
+        name={name}
         type={typeInput}
         disabled={disabled}
         placeholder={placeholder}

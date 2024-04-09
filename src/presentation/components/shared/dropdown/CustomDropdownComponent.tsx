@@ -52,7 +52,7 @@ export const CustomDropdownComponent: FC<Props> = ({
         {isOpen && (
           <div
             id='dropdown-menu'
-            className=' h-[200px] overflow-y-auto  mt-2 w-full rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5'
+            className=' max-h-[200px] overflow-y-auto  mt-2 w-full rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5'
           >
             <div
               className='py-2 p-2'
@@ -60,6 +60,7 @@ export const CustomDropdownComponent: FC<Props> = ({
               aria-orientation='vertical'
               aria-labelledby='dropdown-button'
             >
+              {items.length === 0 && 'No Items para agregar.' }
               {items.map((e) => {
                 return (
                   <a
