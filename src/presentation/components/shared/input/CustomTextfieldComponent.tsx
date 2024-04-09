@@ -6,7 +6,7 @@ interface Props {
   //* Tipo de input (por defecto es 'text')
   typeInput?: React.HTMLInputTypeAttribute;
   //*  Valor actual del input
-  value: string;
+  value?: string;
   // *  Función llamada cuando cambia el valor del input
   onChange: (value: ChangeEvent<HTMLInputElement>) => void;
   // * Texto de marcador de posición para el input
@@ -17,6 +17,8 @@ interface Props {
   error?: boolean;
 
   name?: string;
+
+  defaultValue?: string;
 }
 /**
  * Componente de input personalizado .
@@ -29,6 +31,7 @@ interface Props {
  * @param error - Mensaje de error a mostrar.
  * @param disabled - Indica si el input está deshabilitado.
  * @param name - Nombre de valor a Ingresar .
+ * @param defaultValue - Valor por Default ejem: *JOHN DOE* .
  */
 export const CustomTextfieldComponent: FC<Props> = ({
   title,
@@ -39,6 +42,7 @@ export const CustomTextfieldComponent: FC<Props> = ({
   placeholder,
   typeInput = 'text',
   name,
+  defaultValue
 }) => {
   return (
     <>
@@ -46,6 +50,7 @@ export const CustomTextfieldComponent: FC<Props> = ({
         {title}
       </label>
       <input
+        defaultValue={defaultValue}
         name={name}
         type={typeInput}
         disabled={disabled}

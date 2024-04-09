@@ -46,7 +46,7 @@ export const sidebarData: SidebarEntitie[] = [
   },
   {
     id: 8,
-    title: 'Agregar Trabajador',
+    title: 'Agregar Empleado',
     fontawesomeIcon: 'fa-solid fa-prescription-bottle',
     route: '/agregar-trabajador',
   },

@@ -11,6 +11,7 @@ import { CustomDropdownComponent } from '../../../components/shared/dropdown/Cus
 import { useTrabajadores } from '../../../hooks/useTrabajadores';
 import { useProfesiones } from '../../../hooks/useProfesiones';
 import { useRoles } from '../../../hooks/useRoles';
+import { capitalize } from '../../../extensions/string_extension';
 
 export const AgregarTrabajadorPage = () => {
   const { tipoSangreResp } = useTipoSangre();
@@ -20,6 +21,8 @@ export const AgregarTrabajadorPage = () => {
 
   const [, settipoSangreItem] = useState<string>();
   const [isActive, setIsActive] = useState<boolean>(false);
+  const [isCurrentUserActive, setisCurrentUserActive] = useState<boolean>(false);
+  const {values: reportValues, handleChange: reportHandleChange} = useForm({reportName: ''});
   const { values, handleChange, resetForm } = useForm({
     nombre: '',
     dni: '',
@@ -30,6 +33,10 @@ export const AgregarTrabajadorPage = () => {
 
   const handleSubmit = () => {
     console.log('Formulario enviado:', values);
+    resetForm();
+  };
+  const handleSubmitReport = () => {
+    console.log('Formulario enviado:', reportValues);
     resetForm();
   };
 
@@ -57,6 +64,7 @@ export const AgregarTrabajadorPage = () => {
             <>
               <tr
                 key={i}
+                onClick={() => setisCurrentUserActive(!isCurrentUserActive)}
                 className='p-4 m-10 h-[50px]  hover:bg-[#F1F1F1] cursor-pointer'
               >
                 <td className='font-bold'>{i + 1}</td>
@@ -66,6 +74,45 @@ export const AgregarTrabajadorPage = () => {
                 <td>{e.direccion}</td>
                 <td>{e.createdAt.toString()}</td>
               </tr>
+              <CustomModal isActive={isCurrentUserActive}>
+      <div className='text-end'>
+          <i
+            onClick={() => setisCurrentUserActive(false)}
+            className='fa-solid fa-xmark cursor-pointer'
+          ></i>
+        </div>
+        <div className='mt-3'>
+          <CustomTextfieldComponent
+            title='Nombre Trabajador'
+            name='reportName'
+            defaultValue={e.nombre}
+            // value={reportValues.reportName}
+            onChange={reportHandleChange}
+          />
+          <CustomTextfieldComponent
+            title='DNI'
+            name='dni'
+            value={e.dni}
+            onChange={reportHandleChange} 
+          />
+          <CustomTextfieldComponent
+            title='Correo Electronico'
+            name='direccion'
+            value={e.email}
+            onChange={handleChange}
+          />
+          <CustomTextfieldComponent
+            title='Direccion'
+            name='direccion'
+            value={e.direccion}
+            onChange={handleChange}
+          />
+          <PrimaryButton title='Modificar Reporte' onClick={handleSubmitReport} />
+
+        </div>
+
+
+      </CustomModal>
             </>
           );
         })}
@@ -138,13 +185,14 @@ export const AgregarTrabajadorPage = () => {
             items={
               roles?.map((e) => ({
                 id: e.id,
-                title: e.nombre,
+                title: capitalize(e.nombre) ,
               })) ?? []
             }
           />
           <PrimaryButton title='Crear Trabajador' onClick={handleSubmit} />
         </div>
       </CustomModal>
+      
     </>
   );
 };
