@@ -12,16 +12,18 @@ import { PrimaryButton } from '../../../components/shared/button/PrimaryButton';
 import { SignoVitalesResponse } from '../../../../domain/entities/interfaces/responses/signoVitalesResponse';
 import { Api } from '../../../../config/api/api';
 import { useUsers } from '../../../hooks/useUsers';
+import { Item } from '../../../../domain/datasources/item';
 
 export const SignosVitalesPage = () => {
   const [isActive, setIsActive] = useState<boolean>(false);
   const [frecuenciaCardiac, setfrecuenciaCardiaca] = useState<string>('');
+  const [presionoArterial, setPresionoArterial] = useState<string>('');
   const [frecuenciaRespiratoria, setFrecuenciaRespiratoria] =
     useState<string>('');
   const [temperatura, setTemperatura] = useState<string>('');
   const [oxigeno, setOxigeno] = useState<string>('');
   const [observacionGeneral, setObservacionGeneral] = useState<string>('');
-  const [, settipoSangreItem] = useState<string>('');
+  const [paciente, setPaciente] = useState<Item>();
   const [signosVitalesData, setSignosVitalesData] =
     useState<SignoVitalesResponse>();
   const [status, setStatus] = useState<Status>(Status.notStarted);
@@ -48,6 +50,16 @@ export const SignosVitalesPage = () => {
   useEffect(() => {
     getSignosVitales();
   }, []);
+  const onSubmit  =  async() => {
+    const resp = await Api.instance.post(
+      '/api/signos-vitales',
+      {trabajadorId: 9,pacienteId: paciente?.id,  frecuencia_cardiaca: frecuenciaCardiac, presion_arterial: Number(presionoArterial), frecuencia_respiratoria: Number(frecuenciaCardiac), temperatura: Number(temperatura), oxigeno: Number(oxigeno), observacion_general: observacionGeneral}
+    );
+    console.log(
+      resp.data
+    )
+
+  }
 
   const colums = [
     'Paciente',
@@ -104,13 +116,13 @@ export const SignosVitalesPage = () => {
         </div>
         <div className='mt-3'>
           <CustomDropdownComponent
-            onItemClicked={(e) => settipoSangreItem(e)}
+            onItemClicked={(e) => setPaciente(e)}
             title='Ingresa Paciente'
             items={
               usersResponse?.users.map((e) => ({
                 id: e.id,
                 title: e.nombre,
-              })) ?? [{ id: 0, title: '' }]
+              })) ?? []
             }
           />
           <CustomTextfieldComponent
@@ -138,6 +150,11 @@ export const SignosVitalesPage = () => {
             onChange={(e) => onInputChange(e, setOxigeno)}
           />
           <CustomTextfieldComponent
+              title='Presion Arterial'
+              value={presionoArterial}
+              onChange={(e) => onInputChange(e, setPresionoArterial)}
+            />
+          <CustomTextfieldComponent
             title='Observacion General'
             value={observacionGeneral}
             onChange={(e) => onInputChange(e, setObservacionGeneral)}
@@ -145,7 +162,7 @@ export const SignosVitalesPage = () => {
 
           <PrimaryButton
             title='Crear Signos Vitales'
-            onClick={() => console.log('click')}
+            onClick={onSubmit}
           />
         </div>
       </CustomModal>
