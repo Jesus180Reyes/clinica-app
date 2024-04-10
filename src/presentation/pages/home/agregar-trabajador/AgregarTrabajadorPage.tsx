@@ -14,7 +14,7 @@ import { useRoles } from '../../../hooks/useRoles';
 import { capitalize } from '../../../extensions/string_extension';
 import { Item } from '../../../../domain/datasources/item';
 import { CustomModals } from '../../../../config/helpers/modals/custom_modals';
-// * Prueba Webhook
+
 export const AgregarTrabajadorPage = () => {
   const { tipoSangreResp } = useTipoSangre();
   const { trabajadoresResp, createTrabajador, status ,getTrabajadores} = useTrabajadores();
