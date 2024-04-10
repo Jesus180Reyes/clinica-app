@@ -34,6 +34,7 @@ export const CustomModal: FC<Props> = ({
   return (
     <Modal
       isOpen={isActive}
+      ariaHideApp={false}
       onAfterOpen={afterOpenModal}
       style={customStyles}
       contentLabel='Example Modal'

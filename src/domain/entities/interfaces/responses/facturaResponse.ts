@@ -44,7 +44,7 @@ export interface Habitacion {
 }
 
 export interface Trabajador {
-  id: number;
+  id?: number;
   nombre: string;
   dni: string;
   direccion: string;
@@ -53,9 +53,9 @@ export interface Trabajador {
   tipoSangreId: number;
   profesionId: number;
   roleId: number;
-  createdAt: Date;
-  updatedAt: Date;
-  profesion: Profesion;
+  createdAt?: Date;
+  updatedAt?: Date;
+  profesion?: Profesion;
 }
 
 export interface Profesion {

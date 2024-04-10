@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CustomTable } from '../../../components/layouts/custom_table/CustomTable';
+import { CustomTable, Status } from '../../../components/layouts/custom_table/CustomTable';
 import { Profile_View } from '../../../components/layouts/profile/Profile_View';
 import { CustomButton } from '../../../components/shared/button/CustomButton';
 import { CustomModal } from '../../../components/shared/modal/CustomModal';
@@ -12,16 +12,21 @@ import { useTrabajadores } from '../../../hooks/useTrabajadores';
 import { useProfesiones } from '../../../hooks/useProfesiones';
 import { useRoles } from '../../../hooks/useRoles';
 import { capitalize } from '../../../extensions/string_extension';
+import { Item } from '../../../../domain/datasources/item';
+import { CustomModals } from '../../../../config/helpers/modals/custom_modals';
 
 export const AgregarTrabajadorPage = () => {
   const { tipoSangreResp } = useTipoSangre();
-  const { trabajadoresResp } = useTrabajadores();
+  const { trabajadoresResp, createTrabajador, status ,getTrabajadores} = useTrabajadores();
   const { profesion } = useProfesiones();
   const { roles } = useRoles();
 
-  const [, settipoSangreItem] = useState<string>();
+  const [tipoSangreItem, settipoSangreItem] = useState<Item>();
+  const [profesionReq, setprofesionReq] = useState<Item>();
+  const [roleReq, setRoleReq] = useState<Item>()
   const [isActive, setIsActive] = useState<boolean>(false);
   const [isCurrentUserActive, setisCurrentUserActive] = useState<boolean>(false);
+  const [hasInputError, sethasInputError] = useState<boolean>(false);
   const {values: reportValues, handleChange: reportHandleChange} = useForm({reportName: ''});
   const { values, handleChange, resetForm } = useForm({
     nombre: '',
@@ -31,10 +36,17 @@ export const AgregarTrabajadorPage = () => {
     password: '',
   });
 
-  const handleSubmit = () => {
-    console.log('Formulario enviado:', values);
-    resetForm();
+  const handleSubmit =async () => {
+
+ const isOk = await createTrabajador({...values,  tipoSangreId: tipoSangreItem?.id, profesionId: profesionReq?.id, roleId: roleReq?.id });
+ if(!isOk) return sethasInputError(true);
+  setIsActive(!isActive);
+  resetForm();
+  await CustomModals.showCustomModal('Empleado Creado Exitosamente', 'success');
+  await getTrabajadores();
+  sethasInputError(!hasInputError)
   };
+
   const handleSubmitReport = () => {
     console.log('Formulario enviado:', reportValues);
     resetForm();
@@ -58,7 +70,7 @@ export const AgregarTrabajadorPage = () => {
           onClick={() => setIsActive(!isActive)}
         />
       </div>
-      <CustomTable columns={columns}>
+      <CustomTable status={status} columns={columns}>
         {trabajadoresResp?.map((e, i) => {
           return (
             <>
@@ -72,10 +84,12 @@ export const AgregarTrabajadorPage = () => {
                 <td>{e.dni}</td>
                 <td>{e.email}</td>
                 <td>{e.direccion}</td>
-                <td>{e.createdAt.toString()}</td>
+                <td>{e.createdAt?.toString()}</td>
               </tr>
-              <CustomModal isActive={isCurrentUserActive}>
-      <div className='text-end'>
+
+
+            <CustomModal isActive={isCurrentUserActive} >
+      <div className='text-end' key={i} >
           <i
             onClick={() => setisCurrentUserActive(false)}
             className='fa-solid fa-xmark cursor-pointer'
@@ -116,9 +130,9 @@ export const AgregarTrabajadorPage = () => {
             </>
           );
         })}
-      </CustomTable>
+    </CustomTable>
       <CustomModal isActive={isActive}>
-        <div className='text-end'>
+        <div className='text-end' >
           <i
             onClick={() => setIsActive(false)}
             className='fa-solid fa-xmark cursor-pointer'
@@ -131,18 +145,22 @@ export const AgregarTrabajadorPage = () => {
             name='dni'
             value={values.dni}
             onChange={handleChange}
+            error={values.dni.length <= 0 && hasInputError}
           />
           <CustomTextfieldComponent
             title='Ingresar Nombre Completo'
             name='nombre'
             value={values.nombre}
             onChange={handleChange}
+            error={values.nombre.length <= 0 && hasInputError}
+
           />
           <CustomTextfieldComponent
             title='Ingresar Direccion'
             name='direccion'
             value={values.direccion}
             onChange={handleChange}
+            error={values.direccion.length <= 0 && hasInputError}
           />
           <CustomTextfieldComponent
             title='Correo Electronico'
@@ -150,6 +168,7 @@ export const AgregarTrabajadorPage = () => {
             value={values.email}
             typeInput='email'
             onChange={handleChange}
+            error={values.email.length <= 0 && hasInputError}
           />
           <CustomTextfieldComponent
             title='Contrasena'
@@ -157,6 +176,8 @@ export const AgregarTrabajadorPage = () => {
             value={values.password}
             typeInput='password'
             onChange={handleChange}
+            error={values.password.length <= 0 && hasInputError}
+
           />
 
           <CustomDropdownComponent
@@ -170,7 +191,7 @@ export const AgregarTrabajadorPage = () => {
             }
           />
           <CustomDropdownComponent
-            onItemClicked={(e) => settipoSangreItem(e)}
+            onItemClicked={(e) => setprofesionReq(e)}
             title='Ingresa Profesion de Trabajador'
             items={
               profesion?.map((e) => ({
@@ -180,16 +201,16 @@ export const AgregarTrabajadorPage = () => {
             }
           />
           <CustomDropdownComponent
-            onItemClicked={(e) => settipoSangreItem(e)}
+            onItemClicked={(e) => setRoleReq(e)}
             title='Ingresa Rol de Trabajador'
             items={
               roles?.map((e) => ({
                 id: e.id,
-                title: capitalize(e.nombre) ,
+                title: capitalize(e.nombre),
               })) ?? []
             }
           />
-          <PrimaryButton title='Crear Trabajador' onClick={handleSubmit} />
+          <PrimaryButton disabled={status === Status.inProgress} title='Crear Trabajador' onClick={handleSubmit} />
         </div>
       </CustomModal>
       
