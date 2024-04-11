@@ -48,7 +48,6 @@ export const AgregarTrabajadorPage = () => {
   };
 
   const handleSubmitReport = () => {
-    console.log('Formulario enviado:', reportValues);
     resetForm();
   };
 

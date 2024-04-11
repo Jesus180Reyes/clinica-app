@@ -14,6 +14,7 @@ import { Api } from '../../../../config/api/api';
 import { useUsers } from '../../../hooks/useUsers';
 import { Item } from '../../../../domain/datasources/item';
 import { CustomModals } from '../../../../config/helpers/modals/custom_modals';
+import { useExamenes } from '../../../hooks/useExamenes';
 
 export const SignosVitalesPage = () => {
   const [isActive, setIsActive] = useState<boolean>(false);
@@ -29,7 +30,9 @@ export const SignosVitalesPage = () => {
     useState<SignoVitalesResponse>();
   const [status, setStatus] = useState<Status>(Status.notStarted);
   const { usersResponse } = useUsers();
-
+  const [examenesObservacionGeneral, setExamenesObservacionGeneral] = useState<string>('')
+  const [examnesMedicosItem, setExamnesMedicosItem] = useState<Item>();
+  const {examenesResp, createExamenResultado} = useExamenes();
   const onInputChange = (
     e: ChangeEvent<HTMLInputElement>,
     setValue: React.Dispatch<React.SetStateAction<string>>,
@@ -43,7 +46,6 @@ export const SignosVitalesPage = () => {
     );
 
     const data = resp.data;
-    console.log(data);
     setSignosVitalesData(data);
     setStatus(Status.done);
   };
@@ -52,20 +54,19 @@ export const SignosVitalesPage = () => {
     getSignosVitales();
   }, []);
   const onSubmit  =  async() => {
-    console.log(paciente);
     const resp = await Api.instance.post(
       '/api/signos-vitales',
       {trabajadorId: 9,paciente_id: paciente?.id,  frecuencia_cardiaca: Number(frecuenciaCardiac), presion_arterial: Number(presionoArterial), frecuencia_respiratoria: Number(frecuenciaRespiratoria), temperatura: Number(temperatura), oxigeno: Number(oxigeno), observacion_general: observacionGeneral}
     );
-    const data = resp.data
+    const data = resp.data;
+    await createExamenResultado({paciente_id: paciente?.id, examenes_id: examnesMedicosItem?.id, observacion_general: examenesObservacionGeneral, trabajador_id: 13 });
+    
     if(data.msg === 'Redirigido a Observacion') {
        CustomModals.showCustomModal(data.msg, 'info', 'El usuario a sido redirigido a observacion')
        return;
     }
       CustomModals.showCustomModal('Signo Vitales de Usuario creados exitosamente', 'success')
-    console.log(
-      resp.data
-    )
+   
 
   }
 
@@ -167,7 +168,22 @@ export const SignosVitalesPage = () => {
             value={observacionGeneral}
             onChange={(e) => onInputChange(e, setObservacionGeneral)}
           />
-
+            <h1>Evaluciones: Examenes Medicos  (opcional)</h1>
+            <CustomDropdownComponent
+            onItemClicked={(e) => setExamnesMedicosItem(e)}
+            title='Agregar Tipo de Examen que se realizo el paciente'
+            items={
+              examenesResp?.map((e) => ({
+                id: e.id,
+                title: e.nombre,
+              })) ?? []
+            }
+          />
+           <CustomTextfieldComponent
+            title='Observacion General del Examen Medico'
+            value={examenesObservacionGeneral}
+            onChange={(e) => onInputChange(e, setExamenesObservacionGeneral)}
+          />
           <PrimaryButton
             title='Crear Signos Vitales'
             onClick={onSubmit}

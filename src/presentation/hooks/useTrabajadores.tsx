@@ -19,7 +19,6 @@ export const useTrabajadores = () => {
     }
     setstatus(Status.inProgress);
     const resp = await Api.instance.post('/api/trabajadores', data );
-    console.log(resp.data);
     const isStatusOk = resp.status;
     if(isStatusOk !== 200) {
       throw new Error('Upps Hubo un error no esperado');

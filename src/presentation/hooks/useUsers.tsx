@@ -12,7 +12,6 @@ export const useUsers = () => {
     const resp = await Api.instance<UserResponse>('/api/user');
 
     const data = resp.data;
-    console.log(data);
     setUsersResponse(data);
     setStatus(Status.done);
     return data;

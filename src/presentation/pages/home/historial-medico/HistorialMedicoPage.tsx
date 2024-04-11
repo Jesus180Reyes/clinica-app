@@ -12,6 +12,7 @@ import { CustomDropdownComponent } from '../../../components/shared/dropdown/Cus
 import { CustomTextfieldComponent } from '../../../components/shared/input/CustomTextfieldComponent';
 import { CustomModal } from '../../../components/shared/modal/CustomModal';
 import { useUsers } from '../../../hooks/useUsers';
+import { Item } from '../../../../domain/datasources/item';
 
 export const HistorialMedicoPage = () => {
   const [historialesResp, setHistorialesResp] =
@@ -24,7 +25,7 @@ export const HistorialMedicoPage = () => {
   // const [email, setEmail] = useState<string>('');
   // const [birthday, setBirthday] = useState<string>('');
   const { usersResponse } = useUsers();
-  const [, settipoSangreItem] = useState<string>('');
+  const [, settipoSangreItem] = useState<Item>();
 
   const getHistoriales = async (): Promise<HistorialMedicoResponse> => {
     setStatus(Status.inProgress);
