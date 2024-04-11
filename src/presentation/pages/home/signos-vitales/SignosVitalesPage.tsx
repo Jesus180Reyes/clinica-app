@@ -13,6 +13,7 @@ import { SignoVitalesResponse } from '../../../../domain/entities/interfaces/res
 import { Api } from '../../../../config/api/api';
 import { useUsers } from '../../../hooks/useUsers';
 import { Item } from '../../../../domain/datasources/item';
+import { CustomModals } from '../../../../config/helpers/modals/custom_modals';
 
 export const SignosVitalesPage = () => {
   const [isActive, setIsActive] = useState<boolean>(false);
@@ -51,10 +52,17 @@ export const SignosVitalesPage = () => {
     getSignosVitales();
   }, []);
   const onSubmit  =  async() => {
+    console.log(paciente);
     const resp = await Api.instance.post(
       '/api/signos-vitales',
-      {trabajadorId: 9,pacienteId: paciente?.id,  frecuencia_cardiaca: frecuenciaCardiac, presion_arterial: Number(presionoArterial), frecuencia_respiratoria: Number(frecuenciaCardiac), temperatura: Number(temperatura), oxigeno: Number(oxigeno), observacion_general: observacionGeneral}
+      {trabajadorId: 9,paciente_id: paciente?.id,  frecuencia_cardiaca: Number(frecuenciaCardiac), presion_arterial: Number(presionoArterial), frecuencia_respiratoria: Number(frecuenciaRespiratoria), temperatura: Number(temperatura), oxigeno: Number(oxigeno), observacion_general: observacionGeneral}
     );
+    const data = resp.data
+    if(data.msg === 'Redirigido a Observacion') {
+       CustomModals.showCustomModal(data.msg, 'info', 'El usuario a sido redirigido a observacion')
+       return;
+    }
+      CustomModals.showCustomModal('Signo Vitales de Usuario creados exitosamente', 'success')
     console.log(
       resp.data
     )
