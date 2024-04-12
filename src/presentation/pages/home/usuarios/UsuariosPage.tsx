@@ -1,5 +1,5 @@
-import { ChangeEvent, useState } from 'react';
-import { CustomTable } from '../../../components/layouts/custom_table/CustomTable';
+import {  useState } from 'react';
+import { CustomTable, Status } from '../../../components/layouts/custom_table/CustomTable';
 import { Profile_View } from '../../../components/layouts/profile/Profile_View';
 import { CustomButton } from '../../../components/shared/button/CustomButton';
 import { PrimaryButton } from '../../../components/shared/button/PrimaryButton';
@@ -9,26 +9,34 @@ import { CustomModal } from '../../../components/shared/modal/CustomModal';
 import { NoPermissionGrantedComponent } from '../../../components/shared/permission/NoPermissionGrantedComponent';
 import { useUsers } from '../../../hooks/useUsers';
 import { useTipoSangre } from '../../../hooks/useTipoSangre';
+import { Item } from '../../../../domain/datasources/item';
+import { useForm } from '../../../hooks/form/useForm';
 
 export const UsuariosPage = () => {
-  const { status, usersResponse } = useUsers();
+  const { status, usersResponse,createUser } = useUsers();
   const [isActive, setIsActive] = useState<boolean>(false);
-  const [dni, setDni] = useState<string>('');
-  const [nombre, setNombre] = useState<string>('');
-  const [direccion, setDireccion] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [birthday, setBirthday] = useState<string>('');
-  const [, settipoSangreItem] = useState<string>('');
+  const [tipoSangreItem, settipoSangreItem] = useState<Item>();
 
   const { tipoSangreResp } = useTipoSangre();
+  const {handleChange,resetForm, values} = useForm({
+    dni:  '', 
+    nombre:  '', 
+    direccion:  '', 
+    email:  '', 
+    birthday: ''
+  });
 
-  const onInputChange = (
-    e: ChangeEvent<HTMLInputElement>,
-    setValue: React.Dispatch<React.SetStateAction<string>>,
-  ) => {
-    setValue(e.target.value);
-  };
+  //* const onInputChange = (
+  //   e: ChangeEvent<HTMLInputElement>,
+  //   setValue: React.Dispatch<React.SetStateAction<string>>,
+  // ) => {
+  //   setValue(e.target.value);
+  // };
   const isAdmin = true;
+  const onUserCreation = async() => {
+     await createUser({...values, tipoSangreId: tipoSangreItem?.id, trabajadorId: 22});
+     resetForm();
+  }
 
   const colums = [
     'N.',
@@ -84,30 +92,35 @@ export const UsuariosPage = () => {
           <CustomTextfieldComponent
             typeInput='number'
             title='Ingresar DNI'
-            value={dni}
-            onChange={(e) => onInputChange(e, setDni)}
+            name='dni'
+            value={values.dni}
+            onChange={handleChange}
           />
           <CustomTextfieldComponent
             title='Ingresar Nombre Completo'
-            value={nombre}
-            onChange={(e) => onInputChange(e, setNombre)}
+            value={values.nombre}
+            name='nombre'
+            onChange={handleChange}
           />
           <CustomTextfieldComponent
             title='Ingresar Direccion'
-            value={direccion}
-            onChange={(e) => onInputChange(e, setDireccion)}
+            value={values.direccion}
+            name='direccion'
+            onChange={handleChange}
           />
           <CustomTextfieldComponent
             title='Correo Electronico'
-            value={email}
+            value={values.email}
+            name='email'
             typeInput='email'
-            onChange={(e) => onInputChange(e, setEmail)}
+            onChange={handleChange}
           />
           <CustomTextfieldComponent
             title='Fecha de Nacimiento'
             typeInput='date'
-            value={birthday}
-            onChange={(e) => onInputChange(e, setBirthday)}
+            name='birthday'
+            value={values.birthday}
+            onChange={handleChange}
           />
           <CustomDropdownComponent
             onItemClicked={(e) => settipoSangreItem(e)}
@@ -116,12 +129,13 @@ export const UsuariosPage = () => {
               tipoSangreResp?.tiposSangre.map((e) => ({
                 id: e.id,
                 title: e.nombre,
-              })) ?? [{ id: 0, title: '' }]
+              })) ?? []
             }
           />
           <PrimaryButton
-            title='Crear Cita'
-            onClick={() => console.log('click')}
+            title={`${status === Status.inProgress ? 'Cargando...' : 'Crear Cita'}   `}
+            onClick={onUserCreation}
+            disabled={status === Status.inProgress}
           />
         </div>
       </CustomModal>
