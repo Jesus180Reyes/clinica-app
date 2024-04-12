@@ -19,6 +19,8 @@ interface Props {
   name?: string;
 
   defaultValue?: string;
+  
+  errorMsg?: string;
 }
 /**
  * Componente de input personalizado .
@@ -32,6 +34,7 @@ interface Props {
  * @param disabled - Indica si el input está deshabilitado.
  * @param name - Nombre de valor a Ingresar .
  * @param defaultValue - Valor por Default ejem: *JOHN DOE* .
+ * @param errorMsg - Mensaje cuando *error* es true .
  */
 export const CustomTextfieldComponent: FC<Props> = ({
   title,
@@ -42,7 +45,8 @@ export const CustomTextfieldComponent: FC<Props> = ({
   placeholder,
   typeInput = 'text',
   name,
-  defaultValue
+  defaultValue,
+  errorMsg,
 }) => {
   return (
     <>
@@ -60,7 +64,7 @@ export const CustomTextfieldComponent: FC<Props> = ({
         
         className={`border rounded-lg px-3 py-2 mt-1 mb-3 text-sm w-full ${error ? 'border-red-500' : undefined}`}
       />
-      {error && <p className='text-red-500 text-sm'>Hay un error</p>}
+      {error && <p className='text-red-500 text-sm'>{error  ? errorMsg : 'Hay un error'}</p>}
     </>
   );
 };

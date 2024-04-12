@@ -1,11 +1,9 @@
-import { Api } from '../../../../config/api/api';
-import { HistorialMedicoResponse } from '../../../../domain/entities/interfaces/responses/historialMedicoResponse';
 import {
   CustomTable,
   Status,
 } from '../../../components/layouts/custom_table/CustomTable';
 import { Profile_View } from '../../../components/layouts/profile/Profile_View';
-import { ChangeEvent, useEffect, useState } from 'react';
+import {   useState } from 'react';
 import { CustomButton } from '../../../components/shared/button/CustomButton';
 import { PrimaryButton } from '../../../components/shared/button/PrimaryButton';
 import { CustomDropdownComponent } from '../../../components/shared/dropdown/CustomDropdownComponent';
@@ -13,42 +11,40 @@ import { CustomTextfieldComponent } from '../../../components/shared/input/Custo
 import { CustomModal } from '../../../components/shared/modal/CustomModal';
 import { useUsers } from '../../../hooks/useUsers';
 import { Item } from '../../../../domain/datasources/item';
+import { useHistorialMedico } from '../../../hooks/useHistorialMedico';
+import { useForm } from '../../../hooks/form/useForm';
+import { CustomModals } from '../../../../config/helpers/modals/custom_modals';
 
 export const HistorialMedicoPage = () => {
-  const [historialesResp, setHistorialesResp] =
-    useState<HistorialMedicoResponse>();
-  const [status, setStatus] = useState<Status>(Status.notStarted);
+  const {historialesResp, status,createHistorial } = useHistorialMedico();
   const [isActive, setIsActive] = useState<boolean>(false);
-  const [dni, setDni] = useState<string>('');
-  // const [nombre, setNombre] = useState<string>('');
-  // const [direccion, setDireccion] = useState<string>('');
-  // const [email, setEmail] = useState<string>('');
-  // const [birthday, setBirthday] = useState<string>('');
+  const [onErrorInput, setonErrorInput] = useState<boolean>(false)
+    const {values ,resetForm, handleChange} = useForm({
+      diagnostico: '',
+      tratamiento: ''
+    })
   const { usersResponse } = useUsers();
-  const [, settipoSangreItem] = useState<Item>();
+  const [currentPaciente, setCurrentpaciente] = useState<Item>();
 
-  const getHistoriales = async (): Promise<HistorialMedicoResponse> => {
-    setStatus(Status.inProgress);
-    const resp = await Api.instance.get<HistorialMedicoResponse>(
-      '/api/historial-medico',
-    );
-    const data = resp.data;
-    setHistorialesResp(data);
-    setStatus(Status.done);
 
-    return data;
-  };
-  const onInputChange = (
-    e: ChangeEvent<HTMLInputElement>,
-    setValue: React.Dispatch<React.SetStateAction<string>>,
-  ) => {
-    setValue(e.target.value);
-  };
+  //* const onInputChange = (
+  //   e: ChangeEvent<HTMLInputElement>,
+  //   setValue: React.Dispatch<React.SetStateAction<string>>,
+  // ) => {
+  //   setValue(e.target.value);
+  // };
+  const onHistorialCreation = async() => {
+    if(currentPaciente === undefined)return CustomModals.showCustomModal('Ingresa un paciente a crear', 'warning');
+    const isOk = await createHistorial({...values, id_paciente: currentPaciente?.id });
+    if(!isOk) {
+      setonErrorInput(true)
+      return;
+    }
+    resetForm();
+    setIsActive(!isActive)
+  setonErrorInput(!onErrorInput)
 
-  useEffect(() => {
-    getHistoriales();
-  }, []);
-
+  }
   const colums = [
     'N.',
     'Paciente',
@@ -95,7 +91,7 @@ export const HistorialMedicoPage = () => {
         </div>
         <div className='mt-3'>
           <CustomDropdownComponent
-            onItemClicked={(e) => settipoSangreItem(e)}
+            onItemClicked={(e) => setCurrentpaciente(e)}
             title='Ingresa Paciente'
             items={
               usersResponse?.users.map((e) => ({
@@ -106,18 +102,25 @@ export const HistorialMedicoPage = () => {
           />
           <CustomTextfieldComponent
             title='Ingresar Diagnostico'
-            value={dni}
-            onChange={(e) => onInputChange(e, setDni)}
+            value={values.diagnostico}
+            name='diagnostico'
+            errorMsg='Rellena todos los campos requeridos'
+            onChange={handleChange}
+            error={values.diagnostico.length <= 0 && onErrorInput}
           />
           <CustomTextfieldComponent
             title='Ingresar Tratamiento'
-            value={dni}
-            onChange={(e) => onInputChange(e, setDni)}
+            name='tratamiento'
+            value={values.tratamiento}
+            errorMsg='Rellena todos los campos requeridos'
+            onChange={handleChange}
+            error={values.tratamiento.length <= 0 && onErrorInput}
           />
 
           <PrimaryButton
             title='Crear Historial Medico'
-            onClick={() => console.log('click')}
+            onClick={onHistorialCreation}
+            disabled={status === Status.inProgress}
           />
         </div>
       </CustomModal>
