@@ -5,11 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc && vite build && npm run copy-file",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "prod": "vite --mode prod",
-    "format-code": "prettier --write src/"
+    "format-code": "prettier --write src/",
+    "copy-file": "cp .htaccess dist/"
   },
   "dependencies": {
     "axios": "^1.6.8",
