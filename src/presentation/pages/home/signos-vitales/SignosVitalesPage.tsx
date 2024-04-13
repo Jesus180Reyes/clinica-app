@@ -74,7 +74,6 @@ export const SignosVitalesPage = () => {
   }
   const onUpdateStatus = async(e: SignosVitales) => {
     try {
-    console.log(e.id);
     setIsLoadingStatus(Status.inProgress);
      const resp = await Api.instance.put(
       `/api/signos-vitales/${e.id}`,
