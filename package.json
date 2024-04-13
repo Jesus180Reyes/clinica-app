@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "prod": "vite --mode prod",
     "format-code": "prettier --write src/",
-    "copy-file": "cp .htaccess dist"
+    "copy-file": "cp ./.htaccess ./dist"
   },
   "dependencies": {
     "axios": "^1.6.8",
