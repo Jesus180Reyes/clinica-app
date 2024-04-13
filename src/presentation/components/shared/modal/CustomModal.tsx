@@ -5,6 +5,7 @@ interface Props {
   isActive: boolean;
   children: React.ReactNode;
   onCloseModal?: () => void;
+  afterOpenModal?: () => void;
 }
 const customStyles: Styles = {
   content: {
@@ -28,11 +29,12 @@ export const CustomModal: FC<Props> = ({
   children,
   onCloseModal,
   isActive = false,
+  afterOpenModal
 }) => {
-  function afterOpenModal() {
-    // references are now sync'd and can be accessed.
-    // subtitle.style.color = '#f00';
-  }
+  // function afterOpenModal() {
+  //   // references are now sync'd and can be accessed.
+  //   // subtitle.style.color = '#f00';
+  // }
 
   return (
     <Modal

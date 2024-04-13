@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ChangeEvent, useEffect, useState } from 'react';
 import {
   CustomTable,
@@ -9,7 +10,7 @@ import { CustomModal } from '../../../components/shared/modal/CustomModal';
 import { CustomTextfieldComponent } from '../../../components/shared/input/CustomTextfieldComponent';
 import { CustomDropdownComponent } from '../../../components/shared/dropdown/CustomDropdownComponent';
 import { PrimaryButton } from '../../../components/shared/button/PrimaryButton';
-import { SignoVitalesResponse } from '../../../../domain/entities/interfaces/responses/signoVitalesResponse';
+import { SignoVitalesResponse, SignosVitales } from '../../../../domain/entities/interfaces/responses/signoVitalesResponse';
 import { Api } from '../../../../config/api/api';
 import { useUsers } from '../../../hooks/useUsers';
 import { Item } from '../../../../domain/datasources/item';
@@ -20,11 +21,13 @@ export const SignosVitalesPage = () => {
   const [isActive, setIsActive] = useState<boolean>(false);
   const [frecuenciaCardiac, setfrecuenciaCardiaca] = useState<string>('');
   const [presionoArterial, setPresionoArterial] = useState<string>('');
+  const [isLoadingStatus, setIsLoadingStatus] = useState<Status>(Status.notStarted)
   const [frecuenciaRespiratoria, setFrecuenciaRespiratoria] =
     useState<string>('');
   const [temperatura, setTemperatura] = useState<string>('');
   const [oxigeno, setOxigeno] = useState<string>('');
   const [observacionGeneral, setObservacionGeneral] = useState<string>('');
+  const [isActiveStatus, setisActiveStatus] = useState<boolean>(false)
   const [paciente, setPaciente] = useState<Item>();
   const [signosVitalesData, setSignosVitalesData] =
     useState<SignoVitalesResponse>();
@@ -69,6 +72,24 @@ export const SignosVitalesPage = () => {
    
 
   }
+  const onUpdateStatus = async(e: SignosVitales) => {
+    try {
+    console.log(e.id);
+    setIsLoadingStatus(Status.inProgress);
+     const resp = await Api.instance.put(
+      `/api/signos-vitales/${e.id}`,
+    )
+    console.log(resp.data)
+    setIsLoadingStatus(Status.done);
+    setisActiveStatus(!isActiveStatus);
+    CustomModals.showCustomModal('Status Actualizado Exitosamente', 'success');
+    await getSignosVitales();
+    } catch (error:any) {
+      console.error(error.message)
+      CustomModals.showCustomModal('Ups Ocurrio un error, Vuelve a intentarlo', 'error', error.message);
+    }
+
+  }
 
   const colums = [
     'Paciente',
@@ -93,10 +114,10 @@ export const SignosVitalesPage = () => {
         />
       </div>
       <CustomTable columns={colums} status={status}>
-        {signosVitalesData?.signosVitales.map((e) => {
+        {signosVitalesData?.signosVitales.map((e, i) => {
           return (
             <>
-              <tr className='m-10 h-[50px]  hover:bg-[#F1F1F1] cursor-pointer'>
+              <tr key={i} className='m-10 h-[50px]  hover:bg-[#F1F1F1] cursor-pointer' onClick={() => CustomModals.showModalWithButtons('Desea Actualizar Status', 'Confirmo haber leido este signo vital',()=> onUpdateStatus(e), isLoadingStatus === Status.inProgress)}>
                 <td>{e.paciente.nombre}</td>
                 <td>{e.frecuencia_cardiaca}</td>
                 <td>{e.frecuencia_respiratoria}</td>
@@ -104,7 +125,7 @@ export const SignosVitalesPage = () => {
                 <td>{e.temperatura}</td>
                 <td>{e.oxigeno}</td>
                 <td>{e.createdAt.toString()}</td>
-                <div className='text-center flex items-center justify-center w-[100%] h-[100%]'>
+                <div onClick={() => setisActiveStatus(!isActiveStatus)} className='text-center flex items-center justify-center w-[100%] h-[100%]'>
                   <td
                     className={`${e.leido_por_doctor ? 'bg-green-400' : 'bg-yellow-300'} p-1 w-[100px]  rounded-2xl`}
                   >
@@ -112,6 +133,7 @@ export const SignosVitalesPage = () => {
                   </td>
                 </div>
               </tr>
+             
             </>
           );
         })}
@@ -190,6 +212,7 @@ export const SignosVitalesPage = () => {
           />
         </div>
       </CustomModal>
+     
     </>
   );
 };
