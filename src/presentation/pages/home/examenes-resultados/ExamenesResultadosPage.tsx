@@ -48,7 +48,7 @@ export const ExamenesResultadosPage = () => {
                 <td>{e.paciente.dni}</td>
                 <td>{e.examenes.nombre}</td>
                 <td>{e.trabajador.nombre}</td>
-                <td>{e.trabajador.profesion.nombre}</td>
+                <td>{e.trabajador.profesion?.nombre}</td>
                 <td>{e.observacion_general}</td>
                 <td>{e.createdAt.toString()}</td>
               </tr>

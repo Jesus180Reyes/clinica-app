@@ -47,7 +47,7 @@ export const ObservacionesPage = () => {
                 <td>{e.paciente.nombre}</td>
                 <td>{e.paciente.dni}</td>
                 <td>{e.trabajador.nombre}</td>
-                <td>{e.trabajador.profesion.nombre}</td>
+                <td>{e.trabajador.profesion?.nombre}</td>
                 <td>{e.habitacion?.nombre ?? 'N/A'}</td>
                 <td>{e.createdAt.toString()}</td>
               </tr>

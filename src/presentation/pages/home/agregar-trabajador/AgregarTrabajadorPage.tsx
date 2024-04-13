@@ -27,7 +27,7 @@ export const AgregarTrabajadorPage = () => {
   const [isActive, setIsActive] = useState<boolean>(false);
   const [isCurrentUserActive, setisCurrentUserActive] = useState<boolean>(false);
   const [hasInputError, sethasInputError] = useState<boolean>(false);
-  const {values: reportValues, handleChange: reportHandleChange} = useForm({reportName: ''});
+  const {handleChange: reportHandleChange} = useForm({reportName: ''});
   const { values, handleChange, resetForm } = useForm({
     nombre: '',
     dni: '',

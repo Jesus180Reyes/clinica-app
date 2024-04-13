@@ -49,7 +49,7 @@ export const FacturacionPage = () => {
               <td>{e.trabajador.nombre}</td>
               <td>{e.habitacion?.nombre ?? 'N/A'}</td>
               <td>{e.estadia} dia/s</td>
-              <td>{e.trabajador.profesion.nombre}</td>
+              <td>{e.trabajador.profesion?.nombre}</td>
               <td>{e.metodo_de_pago}</td>
               <td>{e.subtotal}</td>
               <td>{e.total}</td>
