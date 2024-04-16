@@ -1,4 +1,4 @@
-import {  useState } from 'react';
+import {  useEffect, useState } from 'react';
 import { CustomTable, Status } from '../../../components/layouts/custom_table/CustomTable';
 import { Profile_View } from '../../../components/layouts/profile/Profile_View';
 import { CustomButton } from '../../../components/shared/button/CustomButton';
@@ -11,8 +11,12 @@ import { useUsers } from '../../../hooks/useUsers';
 import { useTipoSangre } from '../../../hooks/useTipoSangre';
 import { Item } from '../../../../domain/datasources/item';
 import { useForm } from '../../../hooks/form/useForm';
+import { useAuth } from '../../../hooks/auth/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 export const UsuariosPage = () => {
+  const {user,authState} = useAuth();
+  const navigate = useNavigate()
   const { status, usersResponse,createUser } = useUsers();
   const [isActive, setIsActive] = useState<boolean>(false);
   const [tipoSangreItem, settipoSangreItem] = useState<Item>();
@@ -46,6 +50,12 @@ export const UsuariosPage = () => {
     'Correo Electronico',
     'Aprobado por Auxiliar Medico',
   ];
+  useEffect(() => {
+    if(!user && authState !== 'Authenticated'){
+      navigate('/auth/trabajadores/login')
+    }
+    
+  }, )
   if (!isAdmin) return <NoPermissionGrantedComponent />;
   return (
     <>

@@ -3,7 +3,7 @@ import {
   Status,
 } from '../../../components/layouts/custom_table/CustomTable';
 import { Profile_View } from '../../../components/layouts/profile/Profile_View';
-import {   useState } from 'react';
+import {   useEffect, useState } from 'react';
 import { CustomButton } from '../../../components/shared/button/CustomButton';
 import { PrimaryButton } from '../../../components/shared/button/PrimaryButton';
 import { CustomDropdownComponent } from '../../../components/shared/dropdown/CustomDropdownComponent';
@@ -14,6 +14,8 @@ import { Item } from '../../../../domain/datasources/item';
 import { useHistorialMedico } from '../../../hooks/useHistorialMedico';
 import { useForm } from '../../../hooks/form/useForm';
 import { CustomModals } from '../../../../config/helpers/modals/custom_modals';
+import { useAuth } from '../../../hooks/auth/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 export const HistorialMedicoPage = () => {
   const {historialesResp, status,createHistorial } = useHistorialMedico();
@@ -25,6 +27,8 @@ export const HistorialMedicoPage = () => {
     })
   const { usersResponse } = useUsers();
   const [currentPaciente, setCurrentpaciente] = useState<Item>();
+  const {user,authState} = useAuth();
+  const navigate = useNavigate()
 
 
   //* const onInputChange = (
@@ -54,6 +58,12 @@ export const HistorialMedicoPage = () => {
     'Observacion Por:',
     'Fecha de Creacion',
   ];
+  useEffect(() => {
+    if(!user && authState !== 'Authenticated'){
+      navigate('/auth/trabajadores/login')
+    }
+    
+  }, )
   return (
     <>
       <Profile_View />

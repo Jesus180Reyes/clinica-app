@@ -1,20 +1,34 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { CustomTextfieldComponent } from '../../../components/shared/input/CustomTextfieldComponent';
 import { PrimaryButton } from '../../../components/shared/button/PrimaryButton';
+import { useAuth } from '../../../hooks/auth/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 export const TrabajadoresLoginPage = () => {
+  const { login, user, authState} = useAuth();
   const [emailInput, setEmailInput] = useState<string>('');
   const [passwordInput, setPasswordInput] = useState<string>('');
+  const navigate = useNavigate();
   const onInputChange = (
     e: ChangeEvent<HTMLInputElement>,
     setValue: React.Dispatch<React.SetStateAction<string>>,
   ) => {
     setValue(e.target.value);
   };
-  const onSubmit = (e: any) => {
+  const onSubmit = async (e: any) => {
     e.preventDefault();
+    await login({email: emailInput, password: passwordInput});
   };
+  useEffect(() => {
+    if(!user && authState !== 'Not Authenticated') {
+      navigate('/');
+
+    }
+  
+    
+  }, )
+  
   return (
     <>
       <div className='min-h-screen bg-gray-100 flex flex-col justify-center sm:py-12'>
@@ -31,11 +45,12 @@ export const TrabajadoresLoginPage = () => {
                   onChange={(e) => onInputChange(e, setEmailInput)}
                 />
                 <CustomTextfieldComponent
+                  typeInput='password'
                   title='Contrasena'
                   value={passwordInput}
                   onChange={(e) => onInputChange(e, setPasswordInput)}
                 />
-                <PrimaryButton title='Login' />
+                <PrimaryButton title='Login' onClick={() => onSubmit} />
               </div>
             </form>
           </div>

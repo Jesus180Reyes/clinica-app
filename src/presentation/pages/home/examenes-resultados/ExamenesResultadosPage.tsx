@@ -6,8 +6,14 @@ import {
   CustomTable,
   Status,
 } from '../../../components/layouts/custom_table/CustomTable';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../hooks/auth/useAuth';
 
 export const ExamenesResultadosPage = () => {
+  
+  const navigate = useNavigate();
+  const {user,authState} = useAuth();
+
   const [examenesResp, setexamenesResp] =
     useState<ExamenesResultadosResponse>();
   const [status, setStatus] = useState<Status>(Status.notStarted);
@@ -35,6 +41,13 @@ export const ExamenesResultadosPage = () => {
     'Observacion General',
     'Fecha de Creacion',
   ];
+  useEffect(() => {
+    if(!user && authState !== 'Authenticated'){
+      navigate('/auth/trabajadores/login')
+    }
+    
+  }, )
+  
   return (
     <>
       <Profile_View />

@@ -1,5 +1,4 @@
 import { Navigate, createBrowserRouter } from 'react-router-dom';
-import { HomePage } from '../../presentation/pages/home/HomePage';
 import { App } from '../../presentation/App';
 import { Auth } from '../../presentation/Auth';
 import {
@@ -22,7 +21,8 @@ export class RouterAdapter {
         {
           index: true,
           path: '/',
-          element: <HomePage />,
+          element: <SignosVitalesPage />,
+          
         },
         {
           path: 'signos-vitales',

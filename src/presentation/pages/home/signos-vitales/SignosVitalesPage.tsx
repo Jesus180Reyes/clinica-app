@@ -16,8 +16,12 @@ import { useUsers } from '../../../hooks/useUsers';
 import { Item } from '../../../../domain/datasources/item';
 import { CustomModals } from '../../../../config/helpers/modals/custom_modals';
 import { useExamenes } from '../../../hooks/useExamenes';
+import { useAuth } from '../../../hooks/auth/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 export const SignosVitalesPage = () => {
+  const {user,authState} = useAuth();
+  const navigate = useNavigate()
   const [isActive, setIsActive] = useState<boolean>(false);
   const [frecuenciaCardiac, setfrecuenciaCardiaca] = useState<string>('');
   const [presionoArterial, setPresionoArterial] = useState<string>('');
@@ -100,6 +104,12 @@ export const SignosVitalesPage = () => {
     'Fecha de Creacion',
     'Leido Por Doctor',
   ];
+  useEffect(() => {
+    if(!user && authState !== 'Authenticated'){
+      navigate('/auth/trabajadores/login')
+    }
+    
+  }, )
 
   return (
     <>

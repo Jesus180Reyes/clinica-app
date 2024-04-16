@@ -6,10 +6,14 @@ import { Profile_View } from '../../../components/layouts/profile/Profile_View';
 import { Api } from '../../../../config/api/api';
 import { useState, useEffect } from 'react';
 import { FacturaResponse } from '../../../../domain/entities/interfaces/responses/facturaResponse';
+import { useAuth } from '../../../hooks/auth/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 export const FacturacionPage = () => {
   const [status, setStatus] = useState<Status>(Status.notStarted);
   const [facturasResp, setFacturasResp] = useState<FacturaResponse>();
+  const {user,authState} = useAuth();
+  const navigate = useNavigate()
 
   const getFacturas = async (): Promise<FacturaResponse> => {
     setStatus(Status.inProgress);
@@ -36,6 +40,12 @@ export const FacturacionPage = () => {
     'Subtotal',
     'Total',
   ];
+  useEffect(() => {
+    if(!user && authState !== 'Authenticated'){
+      navigate('/auth/trabajadores/login')
+    }
+    
+  }, )
 
   return (
     <>
@@ -53,23 +63,11 @@ export const FacturacionPage = () => {
               <td>{e.metodo_de_pago}</td>
               <td>{e.subtotal}</td>
               <td>{e.total}</td>
-              {/* <td>The Sliding Mr. Bones (Next Stop, Pottersville)</td>
-          <td>Malcolm Lockyer</td>
-          <td>1961</td>
-          <div className='text-center flex items-center justify-center w-[100%] h-[100%]'>
-          <td className='bg-yellow-300 p-1 w-[100px] rounded-2xl'>No</td>
-          </div> */}
+             
             </tr>
           );
         })}
-        {/* <tr>
-          <td>The Sliding Mr. Bones (Next Stop, Pottersville)</td>
-          <td>Malcolm Lockyer</td>
-          <td>1961</td>
-          <div className='text-center flex items-center justify-center w-[100%] h-[100%]'>
-            <td className='bg-yellow-300 p-1 w-[100px] rounded-2xl'>No</td>
-          </div>
-        </tr> */}
+       
       </CustomTable>
     </>
   );

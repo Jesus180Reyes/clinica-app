@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CustomTable, Status } from '../../../components/layouts/custom_table/CustomTable';
 import { Profile_View } from '../../../components/layouts/profile/Profile_View';
 import { CustomButton } from '../../../components/shared/button/CustomButton';
@@ -14,12 +14,16 @@ import { useRoles } from '../../../hooks/useRoles';
 import { capitalize } from '../../../extensions/string_extension';
 import { Item } from '../../../../domain/datasources/item';
 import { CustomModals } from '../../../../config/helpers/modals/custom_modals';
+import { useAuth } from '../../../hooks/auth/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 export const AgregarTrabajadorPage = () => {
   const { tipoSangreResp } = useTipoSangre();
   const { trabajadoresResp, createTrabajador, status ,getTrabajadores} = useTrabajadores();
   const { profesion } = useProfesiones();
   const { roles } = useRoles();
+  const {user,authState} = useAuth();
+  const navigate = useNavigate()
 
   const [tipoSangreItem, settipoSangreItem] = useState<Item>();
   const [profesionReq, setprofesionReq] = useState<Item>();
@@ -35,6 +39,13 @@ export const AgregarTrabajadorPage = () => {
     email: '',
     password: '',
   });
+  useEffect(() => {
+    if(!user && authState !== 'Authenticated'){
+      navigate('/auth/trabajadores/login',{replace: true});
+      return;
+    }
+  }, )
+  
 
   const handleSubmit =async () => {
 

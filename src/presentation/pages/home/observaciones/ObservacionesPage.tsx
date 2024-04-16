@@ -6,8 +6,12 @@ import {
   Status,
 } from '../../../components/layouts/custom_table/CustomTable';
 import { Profile_View } from '../../../components/layouts/profile/Profile_View';
+import { useAuth } from '../../../hooks/auth/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 export const ObservacionesPage = () => {
+  const {user,authState} = useAuth();
+  const navigate = useNavigate()
   const [observacionResponse, setObservacionResponse] =
     useState<ObservacionResponse>();
   const [status, setStatus] = useState<Status>(Status.notStarted);
@@ -34,6 +38,12 @@ export const ObservacionesPage = () => {
     'Habitacion',
     'Fecha de Ingreso',
   ];
+  useEffect(() => {
+    if(!user && authState !== 'Authenticated'){
+      navigate('/auth/trabajadores/login')
+    }
+    
+  }, )
 
   return (
     <>

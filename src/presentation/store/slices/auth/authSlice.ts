@@ -18,7 +18,7 @@ interface AuthState {
     // `createSlice` will infer the state type from the `initialState` argument
     initialState,
     reducers: {
-      login: (state, action:PayloadAction<Trabajador>) => {
+      loginAuth: (state, action:PayloadAction<Trabajador>) => {
         state.authMsg = 'Authenticated';
         state.user = action.payload;
         // state.value += 1
@@ -31,4 +31,4 @@ interface AuthState {
   
     },
   })
-  export const { login, logout } = authslice.actions;
+  export const { loginAuth, logout } = authslice.actions;

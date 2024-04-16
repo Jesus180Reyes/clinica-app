@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import { sidebarData } from '../../../domain/datasources/sidebar_data';
 import { SidebarItem } from './sidebar/SidebarItem';
+import { useAuth } from '../../hooks/auth/useAuth';
 
 export const SideBar = () => {
   const [isActiveCategory, setIsActiveCategory] = useState<number>(1);
+  const {logOut} = useAuth();
   const onHandleClick = (id: number) => {
     setIsActiveCategory(id);
     return id;
   };
+  
   return (
     <>
       <div className='sidebar-container'>
@@ -23,14 +26,16 @@ export const SideBar = () => {
             />
           ))}
         </div>
+        <div onClick={logOut}>
         <SidebarItem
           sidebarItem={{
             title: 'Cerrar Sesion',
             fontawesomeIcon: 'fa-solid fa-arrow-right-from-bracket',
             id: 100,
-            route: '/auth/login',
+            route: 'auth/trabajadores/login',
           }}
-        />
+          />
+          </div>
       </div>
     </>
   );
