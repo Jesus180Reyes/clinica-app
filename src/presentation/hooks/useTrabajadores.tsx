@@ -13,14 +13,19 @@ export const useTrabajadores = () => {
     setstatus(Status.done);
   };
 
-  const createTrabajador = async(data: Trabajador):Promise<boolean> => {
-    if(data.dni.length === 0 || data.direccion.length === 0 || data.email.length === 0 || data.password.length === 0 ){
+  const createTrabajador = async (data: Trabajador): Promise<boolean> => {
+    if (
+      data.dni.length === 0 ||
+      data.direccion.length === 0 ||
+      data.email.length === 0 ||
+      data.password.length === 0
+    ) {
       return false;
     }
     setstatus(Status.inProgress);
-    const resp = await Api.instance.post('/api/trabajadores', data );
+    const resp = await Api.instance.post('/api/trabajadores', data);
     const isStatusOk = resp.status;
-    if(isStatusOk !== 200) {
+    if (isStatusOk !== 200) {
       throw new Error('Upps Hubo un error no esperado');
     }
     setstatus(Status.done);
@@ -38,6 +43,6 @@ export const useTrabajadores = () => {
     status,
     // * Metodos
     getTrabajadores,
-    createTrabajador
+    createTrabajador,
   };
 };

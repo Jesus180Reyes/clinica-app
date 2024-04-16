@@ -6,7 +6,7 @@ import { useAuth } from '../../../hooks/auth/useAuth';
 import { useNavigate } from 'react-router-dom';
 
 export const TrabajadoresLoginPage = () => {
-  const { login, user, authState} = useAuth();
+  const { login, user, authState } = useAuth();
   const [emailInput, setEmailInput] = useState<string>('');
   const [passwordInput, setPasswordInput] = useState<string>('');
   const navigate = useNavigate();
@@ -18,17 +18,14 @@ export const TrabajadoresLoginPage = () => {
   };
   const onSubmit = async (e: any) => {
     e.preventDefault();
-    await login({email: emailInput, password: passwordInput});
+    await login({ email: emailInput, password: passwordInput });
   };
   useEffect(() => {
-    if(!user && authState !== 'Not Authenticated') {
+    if (!user && authState !== 'Not Authenticated') {
       navigate('/');
-
     }
-  
-    
-  }, )
-  
+  });
+
   return (
     <>
       <div className='min-h-screen bg-gray-100 flex flex-col justify-center sm:py-12'>

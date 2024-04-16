@@ -1,5 +1,8 @@
-import {  useEffect, useState } from 'react';
-import { CustomTable, Status } from '../../../components/layouts/custom_table/CustomTable';
+import { useEffect, useState } from 'react';
+import {
+  CustomTable,
+  Status,
+} from '../../../components/layouts/custom_table/CustomTable';
 import { Profile_View } from '../../../components/layouts/profile/Profile_View';
 import { CustomButton } from '../../../components/shared/button/CustomButton';
 import { PrimaryButton } from '../../../components/shared/button/PrimaryButton';
@@ -15,19 +18,19 @@ import { useAuth } from '../../../hooks/auth/useAuth';
 import { useNavigate } from 'react-router-dom';
 
 export const UsuariosPage = () => {
-  const {user,authState} = useAuth();
-  const navigate = useNavigate()
-  const { status, usersResponse,createUser } = useUsers();
+  const { user, authState } = useAuth();
+  const navigate = useNavigate();
+  const { status, usersResponse, createUser } = useUsers();
   const [isActive, setIsActive] = useState<boolean>(false);
   const [tipoSangreItem, settipoSangreItem] = useState<Item>();
 
   const { tipoSangreResp } = useTipoSangre();
-  const {handleChange,resetForm, values} = useForm({
-    dni:  '', 
-    nombre:  '', 
-    direccion:  '', 
-    email:  '', 
-    birthday: ''
+  const { handleChange, resetForm, values } = useForm({
+    dni: '',
+    nombre: '',
+    direccion: '',
+    email: '',
+    birthday: '',
   });
 
   //* const onInputChange = (
@@ -37,10 +40,14 @@ export const UsuariosPage = () => {
   //   setValue(e.target.value);
   // };
   const isAdmin = true;
-  const onUserCreation = async() => {
-     await createUser({...values, tipoSangreId: tipoSangreItem?.id, trabajadorId: 22});
-     resetForm();
-  }
+  const onUserCreation = async () => {
+    await createUser({
+      ...values,
+      tipoSangreId: tipoSangreItem?.id,
+      trabajadorId: 22,
+    });
+    resetForm();
+  };
 
   const colums = [
     'N.',
@@ -51,11 +58,10 @@ export const UsuariosPage = () => {
     'Aprobado por Auxiliar Medico',
   ];
   useEffect(() => {
-    if(!user && authState !== 'Authenticated'){
-      navigate('/auth/trabajadores/login')
+    if (!user && authState !== 'Authenticated') {
+      navigate('/auth/trabajadores/login');
     }
-    
-  }, )
+  });
   if (!isAdmin) return <NoPermissionGrantedComponent />;
   return (
     <>

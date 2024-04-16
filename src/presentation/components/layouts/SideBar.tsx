@@ -5,12 +5,12 @@ import { useAuth } from '../../hooks/auth/useAuth';
 
 export const SideBar = () => {
   const [isActiveCategory, setIsActiveCategory] = useState<number>(1);
-  const {logOut} = useAuth();
+  const { logOut } = useAuth();
   const onHandleClick = (id: number) => {
     setIsActiveCategory(id);
     return id;
   };
-  
+
   return (
     <>
       <div className='sidebar-container'>
@@ -27,15 +27,15 @@ export const SideBar = () => {
           ))}
         </div>
         <div onClick={logOut}>
-        <SidebarItem
-          sidebarItem={{
-            title: 'Cerrar Sesion',
-            fontawesomeIcon: 'fa-solid fa-arrow-right-from-bracket',
-            id: 100,
-            route: 'auth/trabajadores/login',
-          }}
+          <SidebarItem
+            sidebarItem={{
+              title: 'Cerrar Sesion',
+              fontawesomeIcon: 'fa-solid fa-arrow-right-from-bracket',
+              id: 100,
+              route: 'auth/trabajadores/login',
+            }}
           />
-          </div>
+        </div>
       </div>
     </>
   );

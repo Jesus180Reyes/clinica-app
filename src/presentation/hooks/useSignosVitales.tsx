@@ -1,7 +1,3 @@
-
 export const useSignosVitales = () => {
-    
-  return {
-
-  }
-}
+  return {};
+};

@@ -3,7 +3,7 @@ import {
   Status,
 } from '../../../components/layouts/custom_table/CustomTable';
 import { Profile_View } from '../../../components/layouts/profile/Profile_View';
-import {   useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CustomButton } from '../../../components/shared/button/CustomButton';
 import { PrimaryButton } from '../../../components/shared/button/PrimaryButton';
 import { CustomDropdownComponent } from '../../../components/shared/dropdown/CustomDropdownComponent';
@@ -18,18 +18,17 @@ import { useAuth } from '../../../hooks/auth/useAuth';
 import { useNavigate } from 'react-router-dom';
 
 export const HistorialMedicoPage = () => {
-  const {historialesResp, status,createHistorial } = useHistorialMedico();
+  const { historialesResp, status, createHistorial } = useHistorialMedico();
   const [isActive, setIsActive] = useState<boolean>(false);
-  const [onErrorInput, setonErrorInput] = useState<boolean>(false)
-    const {values ,resetForm, handleChange} = useForm({
-      diagnostico: '',
-      tratamiento: ''
-    })
+  const [onErrorInput, setonErrorInput] = useState<boolean>(false);
+  const { values, resetForm, handleChange } = useForm({
+    diagnostico: '',
+    tratamiento: '',
+  });
   const { usersResponse } = useUsers();
   const [currentPaciente, setCurrentpaciente] = useState<Item>();
-  const {user,authState} = useAuth();
-  const navigate = useNavigate()
-
+  const { user, authState } = useAuth();
+  const navigate = useNavigate();
 
   //* const onInputChange = (
   //   e: ChangeEvent<HTMLInputElement>,
@@ -37,18 +36,24 @@ export const HistorialMedicoPage = () => {
   // ) => {
   //   setValue(e.target.value);
   // };
-  const onHistorialCreation = async() => {
-    if(currentPaciente === undefined)return CustomModals.showCustomModal('Ingresa un paciente a crear', 'warning');
-    const isOk = await createHistorial({...values, id_paciente: currentPaciente?.id });
-    if(!isOk) {
-      setonErrorInput(true)
+  const onHistorialCreation = async () => {
+    if (currentPaciente === undefined)
+      return CustomModals.showCustomModal(
+        'Ingresa un paciente a crear',
+        'warning',
+      );
+    const isOk = await createHistorial({
+      ...values,
+      id_paciente: currentPaciente?.id,
+    });
+    if (!isOk) {
+      setonErrorInput(true);
       return;
     }
     resetForm();
-    setIsActive(!isActive)
-  setonErrorInput(!onErrorInput)
-
-  }
+    setIsActive(!isActive);
+    setonErrorInput(!onErrorInput);
+  };
   const colums = [
     'N.',
     'Paciente',
@@ -59,27 +64,26 @@ export const HistorialMedicoPage = () => {
     'Fecha de Creacion',
   ];
   useEffect(() => {
-    if(!user && authState !== 'Authenticated'){
-      navigate('/auth/trabajadores/login')
+    if (!user && authState !== 'Authenticated') {
+      navigate('/auth/trabajadores/login');
     }
-    
-  }, )
+  });
   const allowRoles = [3];
 
   return (
     <>
       <Profile_View />
-      {
-        allowRoles.includes(user?.roleId ?? 0) &&  <div>
-        <CustomButton
-          onClick={() => setIsActive(!isActive)}
-          title='Registrar Historial Medico'
-          marginleft='ml-5'
-          marginTop='mt-5'
-        />
-      </div>
-      }
-     
+      {allowRoles.includes(user?.roleId ?? 0) && (
+        <div>
+          <CustomButton
+            onClick={() => setIsActive(!isActive)}
+            title='Registrar Historial Medico'
+            marginleft='ml-5'
+            marginTop='mt-5'
+          />
+        </div>
+      )}
+
       <CustomTable columns={colums} status={status}>
         {historialesResp?.historiales.map((e, i) => {
           return (

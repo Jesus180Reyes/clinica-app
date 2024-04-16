@@ -11,9 +11,8 @@ import { useAuth } from '../../../hooks/auth/useAuth';
 import { NoPermissionGrantedComponent } from '../../../components/shared/permission/NoPermissionGrantedComponent';
 
 export const ExamenesResultadosPage = () => {
-  
   const navigate = useNavigate();
-  const {user,authState} = useAuth();
+  const { user, authState } = useAuth();
 
   const [examenesResp, setexamenesResp] =
     useState<ExamenesResultadosResponse>();
@@ -43,13 +42,13 @@ export const ExamenesResultadosPage = () => {
     'Fecha de Creacion',
   ];
   useEffect(() => {
-    if(!user && authState !== 'Authenticated'){
-      navigate('/auth/trabajadores/login')
+    if (!user && authState !== 'Authenticated') {
+      navigate('/auth/trabajadores/login');
     }
-    
-  }, )
+  });
   const allowRoles = [2, 3];
-  if(!allowRoles.includes(user?.roleId ?? 0)) return (<NoPermissionGrantedComponent/>) 
+  if (!allowRoles.includes(user?.roleId ?? 0))
+    return <NoPermissionGrantedComponent />;
 
   return (
     <>

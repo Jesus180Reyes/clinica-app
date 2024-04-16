@@ -3,7 +3,7 @@ import { FC } from 'react';
 interface Props {
   title: string;
   onClick?: () => void;
-  disabled?: boolean
+  disabled?: boolean;
 }
 export const PrimaryButton: FC<Props> = ({ title, onClick, disabled }) => {
   return (

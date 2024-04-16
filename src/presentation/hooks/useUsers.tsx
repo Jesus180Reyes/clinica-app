@@ -21,19 +21,21 @@ export const useUsers = () => {
 
   const createUser = async (data: any) => {
     try {
-    setStatus(Status.inProgress);
-    const resp = await Api.instance.post('/api/user',data);
-    console.log(resp.data);
-    setStatus(Status.done);
-    CustomModals.showCustomModal('Usuario Creado Exitosamente', 'success');
-    
+      setStatus(Status.inProgress);
+      const resp = await Api.instance.post('/api/user', data);
+      console.log(resp.data);
+      setStatus(Status.done);
+      CustomModals.showCustomModal('Usuario Creado Exitosamente', 'success');
     } catch (error: any) {
       console.error(error);
       setStatus(Status.notStarted);
-      CustomModals.showCustomModal('Ups Error no esperado vuelve a intentarlo', 'error', error.message);
+      CustomModals.showCustomModal(
+        'Ups Error no esperado vuelve a intentarlo',
+        'error',
+        error.message,
+      );
     }
-
-  }
+  };
   useEffect(() => {
     getUsers();
   }, []);
@@ -44,6 +46,6 @@ export const useUsers = () => {
     usersResponse,
     // * Metodos
     getUsers,
-    createUser
+    createUser,
   };
 };

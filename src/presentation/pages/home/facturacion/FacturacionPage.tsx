@@ -13,8 +13,8 @@ import { NoPermissionGrantedComponent } from '../../../components/shared/permiss
 export const FacturacionPage = () => {
   const [status, setStatus] = useState<Status>(Status.notStarted);
   const [facturasResp, setFacturasResp] = useState<FacturaResponse>();
-  const {user,authState} = useAuth();
-  const navigate = useNavigate()
+  const { user, authState } = useAuth();
+  const navigate = useNavigate();
 
   const getFacturas = async (): Promise<FacturaResponse> => {
     setStatus(Status.inProgress);
@@ -42,13 +42,13 @@ export const FacturacionPage = () => {
     'Total',
   ];
   useEffect(() => {
-    if(!user && authState !== 'Authenticated'){
-      navigate('/auth/trabajadores/login')
+    if (!user && authState !== 'Authenticated') {
+      navigate('/auth/trabajadores/login');
     }
-    
-  }, )
+  });
   const allowRoles = [2, 3];
-  if(!allowRoles.includes(user?.roleId ?? 0)) return (<NoPermissionGrantedComponent/>) 
+  if (!allowRoles.includes(user?.roleId ?? 0))
+    return <NoPermissionGrantedComponent />;
 
   return (
     <>
@@ -66,11 +66,9 @@ export const FacturacionPage = () => {
               <td>{e.metodo_de_pago}</td>
               <td>{e.subtotal}</td>
               <td>{e.total}</td>
-             
             </tr>
           );
         })}
-       
       </CustomTable>
     </>
   );

@@ -19,7 +19,7 @@ const customStyles: Styles = {
     borderRadius: '20px',
     marginTop: '10px',
     marginBottom: '10px',
-    maxHeight: '700px'
+    maxHeight: '700px',
   },
   overlay: {
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -29,7 +29,7 @@ export const CustomModal: FC<Props> = ({
   children,
   onCloseModal,
   isActive = false,
-  afterOpenModal
+  afterOpenModal,
 }) => {
   // function afterOpenModal() {
   //   // references are now sync'd and can be accessed.

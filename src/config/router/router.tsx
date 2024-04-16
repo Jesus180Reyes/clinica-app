@@ -22,7 +22,6 @@ export class RouterAdapter {
           index: true,
           path: '/',
           element: <SignosVitalesPage />,
-          
         },
         {
           path: 'signos-vitales',

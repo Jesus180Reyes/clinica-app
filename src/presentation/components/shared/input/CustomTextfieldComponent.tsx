@@ -19,7 +19,7 @@ interface Props {
   name?: string;
 
   defaultValue?: string;
-  
+
   errorMsg?: string;
 }
 /**
@@ -61,10 +61,13 @@ export const CustomTextfieldComponent: FC<Props> = ({
         placeholder={placeholder}
         onChange={onChange}
         value={value}
-        
         className={`border rounded-lg px-3 py-2 mt-1 mb-3 text-sm w-full ${error ? 'border-red-500' : undefined}`}
       />
-      {error && <p className='text-red-500 text-sm'>{error  ? errorMsg : 'Hay un error'}</p>}
+      {error && (
+        <p className='text-red-500 text-sm'>
+          {error ? errorMsg : 'Hay un error'}
+        </p>
+      )}
     </>
   );
 };

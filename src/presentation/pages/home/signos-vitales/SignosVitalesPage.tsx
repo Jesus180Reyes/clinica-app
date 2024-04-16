@@ -10,7 +10,10 @@ import { CustomModal } from '../../../components/shared/modal/CustomModal';
 import { CustomTextfieldComponent } from '../../../components/shared/input/CustomTextfieldComponent';
 import { CustomDropdownComponent } from '../../../components/shared/dropdown/CustomDropdownComponent';
 import { PrimaryButton } from '../../../components/shared/button/PrimaryButton';
-import { SignoVitalesResponse, SignosVitales } from '../../../../domain/entities/interfaces/responses/signoVitalesResponse';
+import {
+  SignoVitalesResponse,
+  SignosVitales,
+} from '../../../../domain/entities/interfaces/responses/signoVitalesResponse';
 import { Api } from '../../../../config/api/api';
 import { useUsers } from '../../../hooks/useUsers';
 import { Item } from '../../../../domain/datasources/item';
@@ -20,26 +23,29 @@ import { useAuth } from '../../../hooks/auth/useAuth';
 import { useNavigate } from 'react-router-dom';
 
 export const SignosVitalesPage = () => {
-  const {user,authState} = useAuth();
-  const navigate = useNavigate()
+  const { user, authState } = useAuth();
+  const navigate = useNavigate();
   const [isActive, setIsActive] = useState<boolean>(false);
   const [frecuenciaCardiac, setfrecuenciaCardiaca] = useState<string>('');
   const [presionoArterial, setPresionoArterial] = useState<string>('');
-  const [isLoadingStatus, setIsLoadingStatus] = useState<Status>(Status.notStarted)
+  const [isLoadingStatus, setIsLoadingStatus] = useState<Status>(
+    Status.notStarted,
+  );
   const [frecuenciaRespiratoria, setFrecuenciaRespiratoria] =
     useState<string>('');
   const [temperatura, setTemperatura] = useState<string>('');
   const [oxigeno, setOxigeno] = useState<string>('');
   const [observacionGeneral, setObservacionGeneral] = useState<string>('');
-  const [isActiveStatus, setisActiveStatus] = useState<boolean>(false)
+  const [isActiveStatus, setisActiveStatus] = useState<boolean>(false);
   const [paciente, setPaciente] = useState<Item>();
   const [signosVitalesData, setSignosVitalesData] =
     useState<SignoVitalesResponse>();
   const [status, setStatus] = useState<Status>(Status.notStarted);
   const { usersResponse } = useUsers();
-  const [examenesObservacionGeneral, setExamenesObservacionGeneral] = useState<string>('')
+  const [examenesObservacionGeneral, setExamenesObservacionGeneral] =
+    useState<string>('');
   const [examnesMedicosItem, setExamnesMedicosItem] = useState<Item>();
-  const {examenesResp, createExamenResultado} = useExamenes();
+  const { examenesResp, createExamenResultado } = useExamenes();
   const onInputChange = (
     e: ChangeEvent<HTMLInputElement>,
     setValue: React.Dispatch<React.SetStateAction<string>>,
@@ -60,40 +66,60 @@ export const SignosVitalesPage = () => {
   useEffect(() => {
     getSignosVitales();
   }, []);
-  const onSubmit  =  async() => {
-    const resp = await Api.instance.post(
-      '/api/signos-vitales',
-      {trabajadorId: 9,paciente_id: paciente?.id,  frecuencia_cardiaca: Number(frecuenciaCardiac), presion_arterial: Number(presionoArterial), frecuencia_respiratoria: Number(frecuenciaRespiratoria), temperatura: Number(temperatura), oxigeno: Number(oxigeno), observacion_general: observacionGeneral}
-    );
+  const onSubmit = async () => {
+    const resp = await Api.instance.post('/api/signos-vitales', {
+      trabajadorId: 9,
+      paciente_id: paciente?.id,
+      frecuencia_cardiaca: Number(frecuenciaCardiac),
+      presion_arterial: Number(presionoArterial),
+      frecuencia_respiratoria: Number(frecuenciaRespiratoria),
+      temperatura: Number(temperatura),
+      oxigeno: Number(oxigeno),
+      observacion_general: observacionGeneral,
+    });
     const data = resp.data;
-    await createExamenResultado({paciente_id: paciente?.id, examenes_id: examnesMedicosItem?.id, observacion_general: examenesObservacionGeneral, trabajador_id: 13 });
-    
-    if(data.msg === 'Redirigido a Observacion') {
-       CustomModals.showCustomModal(data.msg, 'info', 'El usuario a sido redirigido a observacion')
-       return;
-    }
-      CustomModals.showCustomModal('Signo Vitales de Usuario creados exitosamente', 'success')
-   
+    await createExamenResultado({
+      paciente_id: paciente?.id,
+      examenes_id: examnesMedicosItem?.id,
+      observacion_general: examenesObservacionGeneral,
+      trabajador_id: 13,
+    });
 
-  }
-  const onUpdateStatus = async(e: SignosVitales) => {
+    if (data.msg === 'Redirigido a Observacion') {
+      CustomModals.showCustomModal(
+        data.msg,
+        'info',
+        'El usuario a sido redirigido a observacion',
+      );
+      return;
+    }
+    CustomModals.showCustomModal(
+      'Signo Vitales de Usuario creados exitosamente',
+      'success',
+    );
+  };
+  const onUpdateStatus = async (e: SignosVitales) => {
     try {
-    setIsLoadingStatus(Status.inProgress);
-      await Api.instance.put(
-      `/api/signos-vitales/${e.id}`,
-    )
-    setIsLoadingStatus(Status.done);
-    setisActiveStatus(!isActiveStatus);
-    CustomModals.showCustomModal('Status Actualizado Exitosamente', 'success');
-    await getSignosVitales();
-    } catch (error:any) {
-      console.error(error.message)
-      CustomModals.showCustomModal('Ups Ocurrio un error, Vuelve a intentarlo', 'error', error.message);
+      setIsLoadingStatus(Status.inProgress);
+      await Api.instance.put(`/api/signos-vitales/${e.id}`);
+      setIsLoadingStatus(Status.done);
+      setisActiveStatus(!isActiveStatus);
+      CustomModals.showCustomModal(
+        'Status Actualizado Exitosamente',
+        'success',
+      );
+      await getSignosVitales();
+    } catch (error: any) {
+      console.error(error.message);
+      CustomModals.showCustomModal(
+        'Ups Ocurrio un error, Vuelve a intentarlo',
+        'error',
+        error.message,
+      );
     }
+  };
 
-  }
-
-  const allowRoles = [2, 3]
+  const allowRoles = [2, 3];
   const colums = [
     'Paciente',
     'Frecuencia Cardiaca',
@@ -105,18 +131,21 @@ export const SignosVitalesPage = () => {
     'Leido Por Doctor',
   ];
   useEffect(() => {
-    if(!user && authState !== 'Authenticated'){
-      navigate('/auth/trabajadores/login')
+    if (!user && authState !== 'Authenticated') {
+      navigate('/auth/trabajadores/login');
     }
-    
-  }, )
-const onUserTab = (e: SignosVitales) => {
-  if(!allowRoles.includes(user?.roleId ?? 0)) {
-    return;
-  }
-  CustomModals.showModalWithButtons('Desea Actualizar Status', 'Confirmo haber leido este signo vital',()=> onUpdateStatus(e), isLoadingStatus === Status.inProgress)
-
-}
+  });
+  const onUserTab = (e: SignosVitales) => {
+    if (!allowRoles.includes(user?.roleId ?? 0)) {
+      return;
+    }
+    CustomModals.showModalWithButtons(
+      'Desea Actualizar Status',
+      'Confirmo haber leido este signo vital',
+      () => onUpdateStatus(e),
+      isLoadingStatus === Status.inProgress,
+    );
+  };
   return (
     <>
       <Profile_View />
@@ -132,7 +161,11 @@ const onUserTab = (e: SignosVitales) => {
         {signosVitalesData?.signosVitales.map((e, i) => {
           return (
             <>
-              <tr key={i} className='m-10 h-[50px]  hover:bg-[#F1F1F1] cursor-pointer' onClick={()=> onUserTab(e)}>
+              <tr
+                key={i}
+                className='m-10 h-[50px]  hover:bg-[#F1F1F1] cursor-pointer'
+                onClick={() => onUserTab(e)}
+              >
                 <td>{e.paciente.nombre}</td>
                 <td>{e.frecuencia_cardiaca}</td>
                 <td>{e.frecuencia_respiratoria}</td>
@@ -140,18 +173,19 @@ const onUserTab = (e: SignosVitales) => {
                 <td>{e.temperatura}</td>
                 <td>{e.oxigeno}</td>
                 <td>{e.createdAt.toString()}</td>
-                {
-                  allowRoles.includes(user?.roleId ?? 0) &&
-                  <div onClick={() => setisActiveStatus(!isActiveStatus)} className='text-center flex items-center justify-center w-[100%] h-[100%]'>
-                  <td
-                    className={`${e.leido_por_doctor ? 'bg-green-400' : 'bg-yellow-300'} p-1 w-[100px]  rounded-2xl`}
+                {allowRoles.includes(user?.roleId ?? 0) && (
+                  <div
+                    onClick={() => setisActiveStatus(!isActiveStatus)}
+                    className='text-center flex items-center justify-center w-[100%] h-[100%]'
+                  >
+                    <td
+                      className={`${e.leido_por_doctor ? 'bg-green-400' : 'bg-yellow-300'} p-1 w-[100px]  rounded-2xl`}
                     >
-                    {e.leido_por_doctor ? 'Sí' : 'No'}
-                  </td>
-                </div>
-            }
+                      {e.leido_por_doctor ? 'Sí' : 'No'}
+                    </td>
+                  </div>
+                )}
               </tr>
-             
             </>
           );
         })}
@@ -199,17 +233,17 @@ const onUserTab = (e: SignosVitales) => {
             onChange={(e) => onInputChange(e, setOxigeno)}
           />
           <CustomTextfieldComponent
-              title='Presion Arterial'
-              value={presionoArterial}
-              onChange={(e) => onInputChange(e, setPresionoArterial)}
-            />
+            title='Presion Arterial'
+            value={presionoArterial}
+            onChange={(e) => onInputChange(e, setPresionoArterial)}
+          />
           <CustomTextfieldComponent
             title='Observacion General'
             value={observacionGeneral}
             onChange={(e) => onInputChange(e, setObservacionGeneral)}
           />
-            <h1>Evaluciones: Examenes Medicos  (opcional)</h1>
-            <CustomDropdownComponent
+          <h1>Evaluciones: Examenes Medicos (opcional)</h1>
+          <CustomDropdownComponent
             onItemClicked={(e) => setExamnesMedicosItem(e)}
             title='Agregar Tipo de Examen que se realizo el paciente'
             items={
@@ -219,18 +253,14 @@ const onUserTab = (e: SignosVitales) => {
               })) ?? []
             }
           />
-           <CustomTextfieldComponent
+          <CustomTextfieldComponent
             title='Observacion General del Examen Medico'
             value={examenesObservacionGeneral}
             onChange={(e) => onInputChange(e, setExamenesObservacionGeneral)}
           />
-          <PrimaryButton
-            title='Crear Signos Vitales'
-            onClick={onSubmit}
-          />
+          <PrimaryButton title='Crear Signos Vitales' onClick={onSubmit} />
         </div>
       </CustomModal>
-     
     </>
   );
 };

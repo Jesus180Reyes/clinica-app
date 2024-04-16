@@ -11,8 +11,8 @@ import { useNavigate } from 'react-router-dom';
 import { NoPermissionGrantedComponent } from '../../../components/shared/permission/NoPermissionGrantedComponent';
 
 export const ObservacionesPage = () => {
-  const {user,authState} = useAuth();
-  const navigate = useNavigate()
+  const { user, authState } = useAuth();
+  const navigate = useNavigate();
   const [observacionResponse, setObservacionResponse] =
     useState<ObservacionResponse>();
   const [status, setStatus] = useState<Status>(Status.notStarted);
@@ -40,15 +40,14 @@ export const ObservacionesPage = () => {
     'Fecha de Ingreso',
   ];
   useEffect(() => {
-    if(!user && authState !== 'Authenticated'){
-      navigate('/auth/trabajadores/login')
+    if (!user && authState !== 'Authenticated') {
+      navigate('/auth/trabajadores/login');
     }
-    
-  }, )
+  });
   const allowRoles = [2, 3];
-  if(!allowRoles.includes(user?.roleId ?? 0)) return (<NoPermissionGrantedComponent/>) 
-    
-  
+  if (!allowRoles.includes(user?.roleId ?? 0))
+    return <NoPermissionGrantedComponent />;
+
   return (
     <>
       <Profile_View />

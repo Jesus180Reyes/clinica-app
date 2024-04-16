@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
-import { CustomTable, Status } from '../../../components/layouts/custom_table/CustomTable';
+import {
+  CustomTable,
+  Status,
+} from '../../../components/layouts/custom_table/CustomTable';
 import { Profile_View } from '../../../components/layouts/profile/Profile_View';
 import { CustomButton } from '../../../components/shared/button/CustomButton';
 import { CustomModal } from '../../../components/shared/modal/CustomModal';
@@ -20,19 +23,21 @@ import { NoPermissionGrantedComponent } from '../../../components/shared/permiss
 
 export const AgregarTrabajadorPage = () => {
   const { tipoSangreResp } = useTipoSangre();
-  const { trabajadoresResp, createTrabajador, status ,getTrabajadores} = useTrabajadores();
+  const { trabajadoresResp, createTrabajador, status, getTrabajadores } =
+    useTrabajadores();
   const { profesion } = useProfesiones();
   const { roles } = useRoles();
-  const {user,authState} = useAuth();
-  const navigate = useNavigate()
+  const { user, authState } = useAuth();
+  const navigate = useNavigate();
 
   const [tipoSangreItem, settipoSangreItem] = useState<Item>();
   const [profesionReq, setprofesionReq] = useState<Item>();
-  const [roleReq, setRoleReq] = useState<Item>()
+  const [roleReq, setRoleReq] = useState<Item>();
   const [isActive, setIsActive] = useState<boolean>(false);
-  const [isCurrentUserActive, setisCurrentUserActive] = useState<boolean>(false);
+  const [isCurrentUserActive, setisCurrentUserActive] =
+    useState<boolean>(false);
   const [hasInputError, sethasInputError] = useState<boolean>(false);
-  const {handleChange: reportHandleChange} = useForm({reportName: ''});
+  const { handleChange: reportHandleChange } = useForm({ reportName: '' });
   const { values, handleChange, resetForm } = useForm({
     nombre: '',
     dni: '',
@@ -41,22 +46,28 @@ export const AgregarTrabajadorPage = () => {
     password: '',
   });
   useEffect(() => {
-    if(!user && authState !== 'Authenticated'){
-      navigate('/auth/trabajadores/login',{replace: true});
+    if (!user && authState !== 'Authenticated') {
+      navigate('/auth/trabajadores/login', { replace: true });
       return;
     }
-  }, )
-  
+  });
 
-  const handleSubmit =async () => {
-
- const isOk = await createTrabajador({...values,  tipoSangreId: tipoSangreItem?.id, profesionId: profesionReq?.id, roleId: roleReq?.id });
- if(!isOk) return sethasInputError(true);
-  setIsActive(!isActive);
-  resetForm();
-  await CustomModals.showCustomModal('Empleado Creado Exitosamente', 'success');
-  await getTrabajadores();
-  sethasInputError(!hasInputError)
+  const handleSubmit = async () => {
+    const isOk = await createTrabajador({
+      ...values,
+      tipoSangreId: tipoSangreItem?.id,
+      profesionId: profesionReq?.id,
+      roleId: roleReq?.id,
+    });
+    if (!isOk) return sethasInputError(true);
+    setIsActive(!isActive);
+    resetForm();
+    await CustomModals.showCustomModal(
+      'Empleado Creado Exitosamente',
+      'success',
+    );
+    await getTrabajadores();
+    sethasInputError(!hasInputError);
   };
 
   const handleSubmitReport = () => {
@@ -72,7 +83,8 @@ export const AgregarTrabajadorPage = () => {
     'Fecha de Creacion',
   ];
   const allowRoles = [3];
-  if(!allowRoles.includes(user?.roleId ?? 0)) return (<NoPermissionGrantedComponent/>) 
+  if (!allowRoles.includes(user?.roleId ?? 0))
+    return <NoPermissionGrantedComponent />;
   return (
     <>
       <Profile_View />
@@ -99,52 +111,51 @@ export const AgregarTrabajadorPage = () => {
                 <td>{e.createdAt?.toString()}</td>
               </tr>
 
-
-            <CustomModal isActive={isCurrentUserActive} >
-      <div className='text-end' key={i} >
-          <i
-            onClick={() => setisCurrentUserActive(false)}
-            className='fa-solid fa-xmark cursor-pointer'
-          ></i>
-        </div>
-        <div className='mt-3'>
-          <CustomTextfieldComponent
-            title='Nombre Trabajador'
-            name='reportName'
-            defaultValue={e.nombre}
-            // value={reportValues.reportName}
-            onChange={reportHandleChange}
-          />
-          <CustomTextfieldComponent
-            title='DNI'
-            name='dni'
-            value={e.dni}
-            onChange={reportHandleChange} 
-          />
-          <CustomTextfieldComponent
-            title='Correo Electronico'
-            name='direccion'
-            value={e.email}
-            onChange={handleChange}
-          />
-          <CustomTextfieldComponent
-            title='Direccion'
-            name='direccion'
-            value={e.direccion}
-            onChange={handleChange}
-          />
-          <PrimaryButton title='Modificar Reporte' onClick={handleSubmitReport} />
-
-        </div>
-
-
-      </CustomModal>
+              <CustomModal isActive={isCurrentUserActive}>
+                <div className='text-end' key={i}>
+                  <i
+                    onClick={() => setisCurrentUserActive(false)}
+                    className='fa-solid fa-xmark cursor-pointer'
+                  ></i>
+                </div>
+                <div className='mt-3'>
+                  <CustomTextfieldComponent
+                    title='Nombre Trabajador'
+                    name='reportName'
+                    defaultValue={e.nombre}
+                    // value={reportValues.reportName}
+                    onChange={reportHandleChange}
+                  />
+                  <CustomTextfieldComponent
+                    title='DNI'
+                    name='dni'
+                    value={e.dni}
+                    onChange={reportHandleChange}
+                  />
+                  <CustomTextfieldComponent
+                    title='Correo Electronico'
+                    name='direccion'
+                    value={e.email}
+                    onChange={handleChange}
+                  />
+                  <CustomTextfieldComponent
+                    title='Direccion'
+                    name='direccion'
+                    value={e.direccion}
+                    onChange={handleChange}
+                  />
+                  <PrimaryButton
+                    title='Modificar Reporte'
+                    onClick={handleSubmitReport}
+                  />
+                </div>
+              </CustomModal>
             </>
           );
         })}
-    </CustomTable>
+      </CustomTable>
       <CustomModal isActive={isActive}>
-        <div className='text-end' >
+        <div className='text-end'>
           <i
             onClick={() => setIsActive(false)}
             className='fa-solid fa-xmark cursor-pointer'
@@ -165,7 +176,6 @@ export const AgregarTrabajadorPage = () => {
             value={values.nombre}
             onChange={handleChange}
             error={values.nombre.length <= 0 && hasInputError}
-
           />
           <CustomTextfieldComponent
             title='Ingresar Direccion'
@@ -189,7 +199,6 @@ export const AgregarTrabajadorPage = () => {
             typeInput='password'
             onChange={handleChange}
             error={values.password.length <= 0 && hasInputError}
-
           />
 
           <CustomDropdownComponent
@@ -222,10 +231,13 @@ export const AgregarTrabajadorPage = () => {
               })) ?? []
             }
           />
-          <PrimaryButton disabled={status === Status.inProgress} title='Crear Trabajador' onClick={handleSubmit} />
+          <PrimaryButton
+            disabled={status === Status.inProgress}
+            title='Crear Trabajador'
+            onClick={handleSubmit}
+          />
         </div>
       </CustomModal>
-      
     </>
   );
 };
