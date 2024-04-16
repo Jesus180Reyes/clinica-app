@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react';
 import { FacturaResponse } from '../../../../domain/entities/interfaces/responses/facturaResponse';
 import { useAuth } from '../../../hooks/auth/useAuth';
 import { useNavigate } from 'react-router-dom';
+import { NoPermissionGrantedComponent } from '../../../components/shared/permission/NoPermissionGrantedComponent';
 
 export const FacturacionPage = () => {
   const [status, setStatus] = useState<Status>(Status.notStarted);
@@ -46,6 +47,8 @@ export const FacturacionPage = () => {
     }
     
   }, )
+  const allowRoles = [2, 3];
+  if(!allowRoles.includes(user?.roleId ?? 0)) return (<NoPermissionGrantedComponent/>) 
 
   return (
     <>
