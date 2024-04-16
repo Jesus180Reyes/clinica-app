@@ -8,6 +8,7 @@ import {
 import { Profile_View } from '../../../components/layouts/profile/Profile_View';
 import { useAuth } from '../../../hooks/auth/useAuth';
 import { useNavigate } from 'react-router-dom';
+import { NoPermissionGrantedComponent } from '../../../components/shared/permission/NoPermissionGrantedComponent';
 
 export const ObservacionesPage = () => {
   const {user,authState} = useAuth();
@@ -44,7 +45,10 @@ export const ObservacionesPage = () => {
     }
     
   }, )
-
+  const allowRoles = [2, 3];
+  if(!allowRoles.includes(user?.roleId ?? 0)) return (<NoPermissionGrantedComponent/>) 
+    
+  
   return (
     <>
       <Profile_View />

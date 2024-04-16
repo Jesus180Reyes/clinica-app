@@ -16,6 +16,7 @@ import { Item } from '../../../../domain/datasources/item';
 import { CustomModals } from '../../../../config/helpers/modals/custom_modals';
 import { useAuth } from '../../../hooks/auth/useAuth';
 import { useNavigate } from 'react-router-dom';
+import { NoPermissionGrantedComponent } from '../../../components/shared/permission/NoPermissionGrantedComponent';
 
 export const AgregarTrabajadorPage = () => {
   const { tipoSangreResp } = useTipoSangre();
@@ -70,7 +71,8 @@ export const AgregarTrabajadorPage = () => {
     'Direccion',
     'Fecha de Creacion',
   ];
-
+  const allowRoles = [3];
+  if(!allowRoles.includes(user?.roleId ?? 0)) return (<NoPermissionGrantedComponent/>) 
   return (
     <>
       <Profile_View />

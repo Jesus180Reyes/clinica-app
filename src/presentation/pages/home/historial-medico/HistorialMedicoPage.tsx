@@ -64,10 +64,13 @@ export const HistorialMedicoPage = () => {
     }
     
   }, )
+  const allowRoles = [3];
+
   return (
     <>
       <Profile_View />
-      <div>
+      {
+        allowRoles.includes(user?.roleId ?? 0) &&  <div>
         <CustomButton
           onClick={() => setIsActive(!isActive)}
           title='Registrar Historial Medico'
@@ -75,6 +78,8 @@ export const HistorialMedicoPage = () => {
           marginTop='mt-5'
         />
       </div>
+      }
+     
       <CustomTable columns={colums} status={status}>
         {historialesResp?.historiales.map((e, i) => {
           return (

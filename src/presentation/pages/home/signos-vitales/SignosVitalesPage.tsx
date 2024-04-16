@@ -79,10 +79,9 @@ export const SignosVitalesPage = () => {
   const onUpdateStatus = async(e: SignosVitales) => {
     try {
     setIsLoadingStatus(Status.inProgress);
-     const resp = await Api.instance.put(
+      await Api.instance.put(
       `/api/signos-vitales/${e.id}`,
     )
-    console.log(resp.data)
     setIsLoadingStatus(Status.done);
     setisActiveStatus(!isActiveStatus);
     CustomModals.showCustomModal('Status Actualizado Exitosamente', 'success');
@@ -94,6 +93,7 @@ export const SignosVitalesPage = () => {
 
   }
 
+  const allowRoles = [2, 3]
   const colums = [
     'Paciente',
     'Frecuencia Cardiaca',
@@ -110,7 +110,13 @@ export const SignosVitalesPage = () => {
     }
     
   }, )
+const onUserTab = (e: SignosVitales) => {
+  if(!allowRoles.includes(user?.roleId ?? 0)) {
+    return;
+  }
+  CustomModals.showModalWithButtons('Desea Actualizar Status', 'Confirmo haber leido este signo vital',()=> onUpdateStatus(e), isLoadingStatus === Status.inProgress)
 
+}
   return (
     <>
       <Profile_View />
@@ -126,7 +132,7 @@ export const SignosVitalesPage = () => {
         {signosVitalesData?.signosVitales.map((e, i) => {
           return (
             <>
-              <tr key={i} className='m-10 h-[50px]  hover:bg-[#F1F1F1] cursor-pointer' onClick={() => CustomModals.showModalWithButtons('Desea Actualizar Status', 'Confirmo haber leido este signo vital',()=> onUpdateStatus(e), isLoadingStatus === Status.inProgress)}>
+              <tr key={i} className='m-10 h-[50px]  hover:bg-[#F1F1F1] cursor-pointer' onClick={()=> onUserTab(e)}>
                 <td>{e.paciente.nombre}</td>
                 <td>{e.frecuencia_cardiaca}</td>
                 <td>{e.frecuencia_respiratoria}</td>
@@ -134,13 +140,16 @@ export const SignosVitalesPage = () => {
                 <td>{e.temperatura}</td>
                 <td>{e.oxigeno}</td>
                 <td>{e.createdAt.toString()}</td>
-                <div onClick={() => setisActiveStatus(!isActiveStatus)} className='text-center flex items-center justify-center w-[100%] h-[100%]'>
+                {
+                  allowRoles.includes(user?.roleId ?? 0) &&
+                  <div onClick={() => setisActiveStatus(!isActiveStatus)} className='text-center flex items-center justify-center w-[100%] h-[100%]'>
                   <td
                     className={`${e.leido_por_doctor ? 'bg-green-400' : 'bg-yellow-300'} p-1 w-[100px]  rounded-2xl`}
-                  >
+                    >
                     {e.leido_por_doctor ? 'Sí' : 'No'}
                   </td>
                 </div>
+            }
               </tr>
              
             </>

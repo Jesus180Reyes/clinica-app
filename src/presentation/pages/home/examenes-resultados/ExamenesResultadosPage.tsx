@@ -8,6 +8,7 @@ import {
 } from '../../../components/layouts/custom_table/CustomTable';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../hooks/auth/useAuth';
+import { NoPermissionGrantedComponent } from '../../../components/shared/permission/NoPermissionGrantedComponent';
 
 export const ExamenesResultadosPage = () => {
   
@@ -47,7 +48,9 @@ export const ExamenesResultadosPage = () => {
     }
     
   }, )
-  
+  const allowRoles = [2, 3];
+  if(!allowRoles.includes(user?.roleId ?? 0)) return (<NoPermissionGrantedComponent/>) 
+
   return (
     <>
       <Profile_View />
